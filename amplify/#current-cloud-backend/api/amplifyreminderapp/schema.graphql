@@ -1,0 +1,7 @@
+type Reminder @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  userId: String!
+  title: String!
+  description: String!
+  remindAt: String!
+} 

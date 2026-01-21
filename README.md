@@ -11,7 +11,45 @@ Current directory is not empty. Please choose how to proceed:
 │  Ignore files and continue (choose this option)
 And starts at 5173 port in local.
 5. Check in browser at "http://localhost:5173".
-6. Push changes to git on new branch
+6. Push changes to git on new branch (development) and main
+7. Connect the development branch with dev backend environment (create a new service role with AdministratorAccess-Amplify policy)
+Now we can see logs for CI & CD pipeline for "development" branch.
+8. After deployment the changes, you can access app https://development.dmiq26r8zc2c1.amplifyapp.com/
+9. Go to Dev backend enviornment and click on "Enable Amplify Studio"
+Which takes to "App settings: Amplify Studio settings" 
+click on "dev" environment URL.
+10. Click on login with AWS credentials to enter into Amplify Studio for "dev" env.
+11. Create Data Model for "Reminder" and click on "deploy changes". Which creates AppSync GraphQL API with backend DynamoDB table.
+12. Get latest client configuration files for GraphQL API:
+Run the following command in Terminal from your project’s root folder
+amplify pull --appId dmiq26r8zc2c1 --envName dev
+13. Note: make sure installed latest version of Amplify CLI
+using command: npm install -g @aws-amplify/cli
+14. Change project-config.json like below, if It's default forms created are not fetched by "amplify pull"
+
+      "framework": "react",
+
+
+      "BuildCommand": "npm run build",
+      "StartCommand": "npm run dev"
+15. "amplify codegen models"
+16. "npm install aws-amplify @aws-amplify/ui-react"
+"npm install @aws-amplify/datastore"
+17. run the frontend app in local by running command "npm run dev".
+18. amplify update api
+Choose GraphQL API
+Enable Conflict detection → Auto Merge (or Optimistic Concurrency)
+Push and regenerate:
+19. amplify push
+amplify codegen models
+amplify pull --appId dmiq26r8zc2c1 --envName dev
+20. Use ThemeProvider (from @aws-amplify/ui-react) get exact look in AmplifyStudio form or other UI components.
+21. Make necessary CSS changes to looks good.
+22. Eventhough these forms are working fine, success and failed responses are not showing. That logic should be added.
+23. If you want to make any model changes from Amplify studio, after done pull the changes using command "amplify pull --appId dmiq26r8zc2c1 --envName dev" for dev env.
+For createdAt and updatedAt attributes in model are managed automatically.
+24. 
+
 
 
 

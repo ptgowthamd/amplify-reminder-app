@@ -1,35 +1,77 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import { Alert, ThemeProvider } from "@aws-amplify/ui-react";
+import "./App.css";
+import {
+  ReminderCreateForm,
+  ReminderUpdateForm,
+  studioTheme,
+} from "./ui-components";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [updateId, setUpdateId] = useState("");
+  const [notice, setNotice] = useState(null);
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <ThemeProvider theme={studioTheme}>
+      <div style={{ maxWidth: 720, margin: "0 auto", padding: 24 }}>
+        <h1>Reminders</h1>
+
+        {notice && (
+          <Alert
+            variation={notice.type}
+            isDismissible
+            onDismiss={() => setNotice(null)}
+            style={{ marginTop: 16 }}
+          >
+            {notice.text}
+          </Alert>
+        )}
+
+        <section style={{ marginTop: 24 }}>
+          <h2>Create Reminder</h2>
+          <ReminderCreateForm
+            clearOnSuccess
+            onSuccess={() =>
+              setNotice({ type: "success", text: "Reminder created." })
+            }
+            onError={(_, errorMessage) =>
+              setNotice({
+                type: "error",
+                text: `Create failed: ${errorMessage}`,
+              })
+            }
+          />
+        </section>
+
+        <section style={{ marginTop: 32 }}>
+          <h2>Update Reminder</h2>
+          <input
+            type="text"
+            placeholder="Paste reminder id to edit"
+            value={updateId}
+            onChange={(event) => setUpdateId(event.target.value)}
+            style={{ width: "100%", padding: 8, marginBottom: 16 }}
+          />
+          {updateId ? (
+            <ReminderUpdateForm
+              id={updateId}
+              onSuccess={() =>
+                setNotice({ type: "success", text: "Reminder updated." })
+              }
+              onError={(_, errorMessage) =>
+                setNotice({
+                  type: "error",
+                  text: `Update failed: ${errorMessage}`,
+                })
+              }
+            />
+          ) : (
+            <p>Enter a reminder id to load the update form.</p>
+          )}
+        </section>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    </ThemeProvider>
+  );
 }
 
-export default App
+export default App;
