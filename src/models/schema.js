@@ -45,16 +45,15 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
-                "createdAt": {
-                    "name": "createdAt",
+                "updatedAt": {
+                    "name": "updatedAt",
                     "isArray": false,
                     "type": "AWSDateTime",
                     "isRequired": false,
-                    "attributes": [],
-                    "isReadOnly": true
+                    "attributes": []
                 },
-                "updatedAt": {
-                    "name": "updatedAt",
+                "createdAt": {
+                    "name": "createdAt",
                     "isArray": false,
                     "type": "AWSDateTime",
                     "isRequired": false,
@@ -68,6 +67,24 @@ export const schema = {
                 {
                     "type": "model",
                     "properties": {}
+                },
+                {
+                    "type": "key",
+                    "properties": {
+                        "fields": [
+                            "id"
+                        ]
+                    }
+                },
+                {
+                    "type": "key",
+                    "properties": {
+                        "name": "byUser",
+                        "fields": [
+                            "userId",
+                            "updatedAt"
+                        ]
+                    }
                 },
                 {
                     "type": "auth",

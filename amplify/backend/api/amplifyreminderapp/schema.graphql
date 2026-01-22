@@ -3,8 +3,7 @@ type Reminder @model @auth(rules: [{allow: public}]) {
   userId: String! @index(name: "byUser", sortKeyFields: ["updatedAt"])
   title: String!
   description: String!
-  remindAt: String!
+  remindAt: AWSDateTime!
   stepFnExecutionArn: String
-  updatedAt: AWSDateTime
-}
+  }
  

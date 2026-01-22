@@ -105,6 +105,14 @@
           {
             "AttributeName": "id",
             "AttributeType": "S"
+          },
+          {
+            "AttributeName": "userId",
+            "AttributeType": "S"
+          },
+          {
+            "AttributeName": "updatedAt",
+            "AttributeType": "S"
           }
         ],
         "BillingMode": {
@@ -116,6 +124,40 @@
             }
           ]
         },
+        "GlobalSecondaryIndexes": [
+          {
+            "IndexName": "byUser",
+            "KeySchema": [
+              {
+                "AttributeName": "userId",
+                "KeyType": "HASH"
+              },
+              {
+                "AttributeName": "updatedAt",
+                "KeyType": "RANGE"
+              }
+            ],
+            "Projection": {
+              "ProjectionType": "ALL"
+            },
+            "ProvisionedThroughput": {
+              "Fn::If": [
+                "ShouldUsePayPerRequestBilling",
+                {
+                  "Ref": "AWS::NoValue"
+                },
+                {
+                  "ReadCapacityUnits": {
+                    "Ref": "DynamoDBModelTableReadIOPS"
+                  },
+                  "WriteCapacityUnits": {
+                    "Ref": "DynamoDBModelTableWriteIOPS"
+                  }
+                }
+              ]
+            }
+          }
+        ],
         "KeySchema": [
           {
             "AttributeName": "id",
@@ -362,7 +404,18 @@
                   ]
                 },
                 {
-                  "Ref": "AWS::NoValue"
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "ReminderTable",
+                          "Arn"
+                        ]
+                      },
+                      "/index/*"
+                    ]
+                  ]
                 }
               ]
             }
@@ -423,6 +476,36 @@
       "DependsOn": [
         "ReminderIAMRole657D5477"
       ]
+    },
+    "QuerygetReminderpreAuth0FunctionQuerygetReminderpreAuth0FunctionAppSyncFunction295F3F31": {
+      "Type": "AWS::AppSync::FunctionConfiguration",
+      "Properties": {
+        "ApiId": {
+          "Ref": "referencetotransformerrootstackGraphQLAPI20497F53ApiId"
+        },
+        "DataSourceName": {
+          "Ref": "referencetotransformerrootstackGraphQLAPINONEDS2BA9D1C8Name"
+        },
+        "FunctionVersion": "2018-05-29",
+        "Name": "QuerygetReminderpreAuth0Function",
+        "RequestMappingTemplateS3Location": {
+          "Fn::Join": [
+            "",
+            [
+              "s3://",
+              {
+                "Ref": "referencetotransformerrootstackS3DeploymentBucket7592718ARef"
+              },
+              "/",
+              {
+                "Ref": "referencetotransformerrootstackS3DeploymentRootKeyA71EA735Ref"
+              },
+              "/resolvers/Query.getReminder.preAuth.1.req.vtl"
+            ]
+          ]
+        },
+        "ResponseMappingTemplate": "$util.toJson({})"
+      }
     },
     "QuerygetReminderauth0FunctionQuerygetReminderauth0FunctionAppSyncFunctionDEE8EF01": {
       "Type": "AWS::AppSync::FunctionConfiguration",
@@ -551,6 +634,12 @@
           "Functions": [
             {
               "Fn::GetAtt": [
+                "QuerygetReminderpreAuth0FunctionQuerygetReminderpreAuth0FunctionAppSyncFunction295F3F31",
+                "FunctionId"
+              ]
+            },
+            {
+              "Fn::GetAtt": [
                 "QuerygetReminderauth0FunctionQuerygetReminderauth0FunctionAppSyncFunctionDEE8EF01",
                 "FunctionId"
               ]
@@ -603,6 +692,36 @@
         },
         "ResponseMappingTemplate": "$util.toJson($ctx.prev.result)",
         "TypeName": "Query"
+      }
+    },
+    "QuerylistReminderspreAuth0FunctionQuerylistReminderspreAuth0FunctionAppSyncFunctionD69EF64B": {
+      "Type": "AWS::AppSync::FunctionConfiguration",
+      "Properties": {
+        "ApiId": {
+          "Ref": "referencetotransformerrootstackGraphQLAPI20497F53ApiId"
+        },
+        "DataSourceName": {
+          "Ref": "referencetotransformerrootstackGraphQLAPINONEDS2BA9D1C8Name"
+        },
+        "FunctionVersion": "2018-05-29",
+        "Name": "QuerylistReminderspreAuth0Function",
+        "RequestMappingTemplateS3Location": {
+          "Fn::Join": [
+            "",
+            [
+              "s3://",
+              {
+                "Ref": "referencetotransformerrootstackS3DeploymentBucket7592718ARef"
+              },
+              "/",
+              {
+                "Ref": "referencetotransformerrootstackS3DeploymentRootKeyA71EA735Ref"
+              },
+              "/resolvers/Query.listReminders.preAuth.1.req.vtl"
+            ]
+          ]
+        },
+        "ResponseMappingTemplate": "$util.toJson({})"
       }
     },
     "QueryListRemindersDataResolverFnQueryListRemindersDataResolverFnAppSyncFunction1D53197F": {
@@ -672,6 +791,12 @@
           "Functions": [
             {
               "Fn::GetAtt": [
+                "QuerylistReminderspreAuth0FunctionQuerylistReminderspreAuth0FunctionAppSyncFunctionD69EF64B",
+                "FunctionId"
+              ]
+            },
+            {
+              "Fn::GetAtt": [
                 "QuerygetReminderauth0FunctionQuerygetReminderauth0FunctionAppSyncFunctionDEE8EF01",
                 "FunctionId"
               ]
@@ -724,6 +849,66 @@
         },
         "ResponseMappingTemplate": "$util.toJson($ctx.prev.result)",
         "TypeName": "Query"
+      }
+    },
+    "QuerysyncReminderspreAuth0FunctionQuerysyncReminderspreAuth0FunctionAppSyncFunctionCB1D6953": {
+      "Type": "AWS::AppSync::FunctionConfiguration",
+      "Properties": {
+        "ApiId": {
+          "Ref": "referencetotransformerrootstackGraphQLAPI20497F53ApiId"
+        },
+        "DataSourceName": {
+          "Ref": "referencetotransformerrootstackGraphQLAPINONEDS2BA9D1C8Name"
+        },
+        "FunctionVersion": "2018-05-29",
+        "Name": "QuerysyncReminderspreAuth0Function",
+        "RequestMappingTemplateS3Location": {
+          "Fn::Join": [
+            "",
+            [
+              "s3://",
+              {
+                "Ref": "referencetotransformerrootstackS3DeploymentBucket7592718ARef"
+              },
+              "/",
+              {
+                "Ref": "referencetotransformerrootstackS3DeploymentRootKeyA71EA735Ref"
+              },
+              "/resolvers/Query.syncReminders.preAuth.1.req.vtl"
+            ]
+          ]
+        },
+        "ResponseMappingTemplate": "$util.toJson({})"
+      }
+    },
+    "QuerysyncReminderspreAuth1FunctionQuerysyncReminderspreAuth1FunctionAppSyncFunction7D687CEA": {
+      "Type": "AWS::AppSync::FunctionConfiguration",
+      "Properties": {
+        "ApiId": {
+          "Ref": "referencetotransformerrootstackGraphQLAPI20497F53ApiId"
+        },
+        "DataSourceName": {
+          "Ref": "referencetotransformerrootstackGraphQLAPINONEDS2BA9D1C8Name"
+        },
+        "FunctionVersion": "2018-05-29",
+        "Name": "QuerysyncReminderspreAuth1Function",
+        "RequestMappingTemplateS3Location": {
+          "Fn::Join": [
+            "",
+            [
+              "s3://",
+              {
+                "Ref": "referencetotransformerrootstackS3DeploymentBucket7592718ARef"
+              },
+              "/",
+              {
+                "Ref": "referencetotransformerrootstackS3DeploymentRootKeyA71EA735Ref"
+              },
+              "/resolvers/Query.syncReminders.preAuth.2.req.vtl"
+            ]
+          ]
+        },
+        "ResponseMappingTemplate": "$util.toJson({})"
       }
     },
     "QuerySyncRemindersDataResolverFnQuerySyncRemindersDataResolverFnAppSyncFunction8CB74F87": {
@@ -791,6 +976,18 @@
         "Kind": "PIPELINE",
         "PipelineConfig": {
           "Functions": [
+            {
+              "Fn::GetAtt": [
+                "QuerysyncReminderspreAuth0FunctionQuerysyncReminderspreAuth0FunctionAppSyncFunctionCB1D6953",
+                "FunctionId"
+              ]
+            },
+            {
+              "Fn::GetAtt": [
+                "QuerysyncReminderspreAuth1FunctionQuerysyncReminderspreAuth1FunctionAppSyncFunction7D687CEA",
+                "FunctionId"
+              ]
+            },
             {
               "Fn::GetAtt": [
                 "QuerygetReminderauth0FunctionQuerygetReminderauth0FunctionAppSyncFunctionDEE8EF01",
@@ -871,6 +1068,36 @@
                 "Ref": "referencetotransformerrootstackS3DeploymentRootKeyA71EA735Ref"
               },
               "/resolvers/Mutation.createReminder.init.1.req.vtl"
+            ]
+          ]
+        },
+        "ResponseMappingTemplate": "$util.toJson({})"
+      }
+    },
+    "MutationcreateReminderpreAuth0FunctionMutationcreateReminderpreAuth0FunctionAppSyncFunctionD0F2F3E3": {
+      "Type": "AWS::AppSync::FunctionConfiguration",
+      "Properties": {
+        "ApiId": {
+          "Ref": "referencetotransformerrootstackGraphQLAPI20497F53ApiId"
+        },
+        "DataSourceName": {
+          "Ref": "referencetotransformerrootstackGraphQLAPINONEDS2BA9D1C8Name"
+        },
+        "FunctionVersion": "2018-05-29",
+        "Name": "MutationcreateReminderpreAuth0Function",
+        "RequestMappingTemplateS3Location": {
+          "Fn::Join": [
+            "",
+            [
+              "s3://",
+              {
+                "Ref": "referencetotransformerrootstackS3DeploymentBucket7592718ARef"
+              },
+              "/",
+              {
+                "Ref": "referencetotransformerrootstackS3DeploymentRootKeyA71EA735Ref"
+              },
+              "/resolvers/Mutation.createReminder.preAuth.1.req.vtl"
             ]
           ]
         },
@@ -975,6 +1202,12 @@
             {
               "Fn::GetAtt": [
                 "MutationcreateReminderinit0FunctionMutationcreateReminderinit0FunctionAppSyncFunctionF8CB3ED8",
+                "FunctionId"
+              ]
+            },
+            {
+              "Fn::GetAtt": [
+                "MutationcreateReminderpreAuth0FunctionMutationcreateReminderpreAuth0FunctionAppSyncFunctionD0F2F3E3",
                 "FunctionId"
               ]
             },
@@ -1188,6 +1421,12 @@
             },
             {
               "Fn::GetAtt": [
+                "MutationcreateReminderpreAuth0FunctionMutationcreateReminderpreAuth0FunctionAppSyncFunctionD0F2F3E3",
+                "FunctionId"
+              ]
+            },
+            {
+              "Fn::GetAtt": [
                 "MutationupdateReminderauth0FunctionMutationupdateReminderauth0FunctionAppSyncFunctionC56A7CD3",
                 "FunctionId"
               ]
@@ -1240,6 +1479,36 @@
         },
         "ResponseMappingTemplate": "$util.toJson($ctx.prev.result)",
         "TypeName": "Mutation"
+      }
+    },
+    "MutationdeleteReminderpreAuth0FunctionMutationdeleteReminderpreAuth0FunctionAppSyncFunctionD183DA2A": {
+      "Type": "AWS::AppSync::FunctionConfiguration",
+      "Properties": {
+        "ApiId": {
+          "Ref": "referencetotransformerrootstackGraphQLAPI20497F53ApiId"
+        },
+        "DataSourceName": {
+          "Ref": "referencetotransformerrootstackGraphQLAPINONEDS2BA9D1C8Name"
+        },
+        "FunctionVersion": "2018-05-29",
+        "Name": "MutationdeleteReminderpreAuth0Function",
+        "RequestMappingTemplateS3Location": {
+          "Fn::Join": [
+            "",
+            [
+              "s3://",
+              {
+                "Ref": "referencetotransformerrootstackS3DeploymentBucket7592718ARef"
+              },
+              "/",
+              {
+                "Ref": "referencetotransformerrootstackS3DeploymentRootKeyA71EA735Ref"
+              },
+              "/resolvers/Mutation.deleteReminder.preAuth.1.req.vtl"
+            ]
+          ]
+        },
+        "ResponseMappingTemplate": "$util.toJson({})"
       }
     },
     "MutationdeleteReminderauth0FunctionMutationdeleteReminderauth0FunctionAppSyncFunction51720DD3": {
@@ -1358,6 +1627,12 @@
         "Kind": "PIPELINE",
         "PipelineConfig": {
           "Functions": [
+            {
+              "Fn::GetAtt": [
+                "MutationdeleteReminderpreAuth0FunctionMutationdeleteReminderpreAuth0FunctionAppSyncFunctionD183DA2A",
+                "FunctionId"
+              ]
+            },
             {
               "Fn::GetAtt": [
                 "MutationdeleteReminderauth0FunctionMutationdeleteReminderauth0FunctionAppSyncFunction51720DD3",
@@ -1673,6 +1948,127 @@
         },
         "ResponseMappingTemplate": "$util.toJson($ctx.prev.result)",
         "TypeName": "Subscription"
+      }
+    },
+    "QueryRemindersByUserIdAndUpdatedAtDataResolverFnQueryRemindersByUserIdAndUpdatedAtDataResolverFnAppSyncFunction353DF682": {
+      "Type": "AWS::AppSync::FunctionConfiguration",
+      "Properties": {
+        "ApiId": {
+          "Ref": "referencetotransformerrootstackGraphQLAPI20497F53ApiId"
+        },
+        "DataSourceName": {
+          "Fn::GetAtt": [
+            "ReminderDataSource",
+            "Name"
+          ]
+        },
+        "FunctionVersion": "2018-05-29",
+        "Name": "QueryRemindersByUserIdAndUpdatedAtDataResolverFn",
+        "RequestMappingTemplateS3Location": {
+          "Fn::Join": [
+            "",
+            [
+              "s3://",
+              {
+                "Ref": "referencetotransformerrootstackS3DeploymentBucket7592718ARef"
+              },
+              "/",
+              {
+                "Ref": "referencetotransformerrootstackS3DeploymentRootKeyA71EA735Ref"
+              },
+              "/resolvers/Query.remindersByUserIdAndUpdatedAt.req.vtl"
+            ]
+          ]
+        },
+        "ResponseMappingTemplateS3Location": {
+          "Fn::Join": [
+            "",
+            [
+              "s3://",
+              {
+                "Ref": "referencetotransformerrootstackS3DeploymentBucket7592718ARef"
+              },
+              "/",
+              {
+                "Ref": "referencetotransformerrootstackS3DeploymentRootKeyA71EA735Ref"
+              },
+              "/resolvers/Query.remindersByUserIdAndUpdatedAt.res.vtl"
+            ]
+          ]
+        },
+        "SyncConfig": {
+          "ConflictDetection": "VERSION",
+          "ConflictHandler": "AUTOMERGE"
+        }
+      },
+      "DependsOn": [
+        "ReminderDataSource"
+      ]
+    },
+    "QueryremindersByUserIdAndUpdatedAtResolver": {
+      "Type": "AWS::AppSync::Resolver",
+      "Properties": {
+        "ApiId": {
+          "Ref": "referencetotransformerrootstackGraphQLAPI20497F53ApiId"
+        },
+        "FieldName": "remindersByUserIdAndUpdatedAt",
+        "Kind": "PIPELINE",
+        "PipelineConfig": {
+          "Functions": [
+            {
+              "Fn::GetAtt": [
+                "QuerygetReminderauth0FunctionQuerygetReminderauth0FunctionAppSyncFunctionDEE8EF01",
+                "FunctionId"
+              ]
+            },
+            {
+              "Fn::GetAtt": [
+                "QuerygetReminderpostAuth0FunctionQuerygetReminderpostAuth0FunctionAppSyncFunctionE8F1F84D",
+                "FunctionId"
+              ]
+            },
+            {
+              "Fn::GetAtt": [
+                "QueryRemindersByUserIdAndUpdatedAtDataResolverFnQueryRemindersByUserIdAndUpdatedAtDataResolverFnAppSyncFunction353DF682",
+                "FunctionId"
+              ]
+            }
+          ]
+        },
+        "RequestMappingTemplate": {
+          "Fn::Join": [
+            "",
+            [
+              "$util.qr($ctx.stash.put(\"typeName\", \"Query\"))\n$util.qr($ctx.stash.put(\"fieldName\", \"remindersByUserIdAndUpdatedAt\"))\n$util.qr($ctx.stash.put(\"conditions\", []))\n$util.qr($ctx.stash.put(\"metadata\", {}))\n$util.qr($ctx.stash.metadata.put(\"dataSourceType\", \"AMAZON_DYNAMODB\"))\n$util.qr($ctx.stash.metadata.put(\"apiId\", \"",
+              {
+                "Ref": "referencetotransformerrootstackGraphQLAPI20497F53ApiId"
+              },
+              "\"))\n$util.qr($ctx.stash.put(\"connectionAttributes\", {}))\n$util.qr($ctx.stash.put(\"tableName\", \"",
+              {
+                "Ref": "ReminderTable"
+              },
+              "\"))\n$util.qr($ctx.stash.put(\"deltaSyncTableTtl\", 30))\n$util.qr($ctx.stash.put(\"authRole\", \"arn:aws:sts::",
+              {
+                "Ref": "AWS::AccountId"
+              },
+              ":assumed-role/",
+              {
+                "Ref": "referencetotransformerrootstackauthRoleNameFB872D50Ref"
+              },
+              "/CognitoIdentityCredentials\"))\n$util.qr($ctx.stash.put(\"unauthRole\", \"arn:aws:sts::",
+              {
+                "Ref": "AWS::AccountId"
+              },
+              ":assumed-role/",
+              {
+                "Ref": "referencetotransformerrootstackunauthRoleName49F3C1FERef"
+              },
+              "/CognitoIdentityCredentials\"))\n$util.qr($ctx.stash.put(\"adminRoles\", [\"ap-south-1_tmOh16Thf_Full-access/CognitoIdentityCredentials\",\"ap-south-1_tmOh16Thf_Manage-only/CognitoIdentityCredentials\"]))\n$util.toJson({})"
+            ]
+          ]
+        },
+        "ResponseMappingTemplate": "$util.toJson($ctx.prev.result)",
+        "TypeName": "Query"
       }
     }
   },

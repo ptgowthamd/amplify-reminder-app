@@ -1,9 +1,10 @@
 type Reminder @model @auth(rules: [{allow: public}]) {
-  id: ID!
-  userId: String!
+  id: ID! @primaryKey
+  userId: String! @index(name: "byUser", sortKeyFields: ["updatedAt"])
   title: String!
   description: String!
   remindAt: String!
   stepFnExecutionArn: String
+  updatedAt: AWSDateTime
 }
  

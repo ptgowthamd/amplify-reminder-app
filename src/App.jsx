@@ -4,17 +4,28 @@ import "./App.css";
 import {
   ReminderCreateForm,
   ReminderUpdateForm,
+  SocialPostCollection,
   studioTheme,
 } from "./ui-components";
 
 function App() {
   const [updateId, setUpdateId] = useState("");
   const [notice, setNotice] = useState(null);
+  const [view, setView] = useState("forms");
 
   return (
     <ThemeProvider theme={studioTheme}>
       <div style={{ maxWidth: 720, margin: "0 auto", padding: 24 }}>
         <h1>Reminders</h1>
+
+        <div style={{ display: "flex", gap: 12, justifyContent: "center" }}>
+          <button type="button" onClick={() => setView("forms")}>
+            Create/Update reminders
+          </button>
+          <button type="button" onClick={() => setView("list")}>
+            View reminders
+          </button>
+        </div>
 
         {notice && (
           <Alert
@@ -27,62 +38,71 @@ function App() {
           </Alert>
         )}
 
-        <section style={{ marginTop: 24 }}>
-          <h2>Create Reminder</h2>
-          <ReminderCreateForm
-            clearOnSuccess
-            overrides={{
-              stepFnExecutionArn: {
-                labelHidden: true,
-                type: "hidden",
-                style: { display: "none" },
-              },
-            }}
-            onSuccess={() =>
-              setNotice({ type: "success", text: "Reminder created." })
-            }
-            onError={(_, errorMessage) =>
-              setNotice({
-                type: "error",
-                text: `Create failed: ${errorMessage}`,
-              })
-            }
-          />
-        </section>
+        {view === "forms" ? (
+          <>
+            <section style={{ marginTop: 24 }}>
+              <h2>Create Reminder</h2>
+              <ReminderCreateForm
+                clearOnSuccess
+                overrides={{
+                  stepFnExecutionArn: {
+                    labelHidden: true,
+                    type: "hidden",
+                    style: { display: "none" },
+                  },
+                }}
+                onSuccess={() =>
+                  setNotice({ type: "success", text: "Reminder created." })
+                }
+                onError={(_, errorMessage) =>
+                  setNotice({
+                    type: "error",
+                    text: `Create failed: ${errorMessage}`,
+                  })
+                }
+              />
+            </section>
 
-        <section style={{ marginTop: 32 }}>
-          <h2>Update Reminder</h2>
-          <input
-            type="text"
-            placeholder="Paste reminder id to edit"
-            value={updateId}
-            onChange={(event) => setUpdateId(event.target.value)}
-            style={{ width: "100%", padding: 8, marginBottom: 16 }}
-          />
-          {updateId ? (
-            <ReminderUpdateForm
-              id={updateId}
-              overrides={{
-                stepFnExecutionArn: {
-                  labelHidden: true,
-                  type: "hidden",
-                  style: { display: "none" },
-                },
-              }}
-              onSuccess={() =>
-                setNotice({ type: "success", text: "Reminder updated." })
-              }
-              onError={(_, errorMessage) =>
-                setNotice({
-                  type: "error",
-                  text: `Update failed: ${errorMessage}`,
-                })
-              }
-            />
-          ) : (
-            <p>Enter a reminder id to load the update form.</p>
-          )}
-        </section>
+            <section style={{ marginTop: 32 }}>
+              <h2>Update Reminder</h2>
+              <input
+                type="text"
+                placeholder="Paste reminder id to edit"
+                value={updateId}
+                onChange={(event) => setUpdateId(event.target.value)}
+                style={{ width: "100%", padding: 8, marginBottom: 16 }}
+              />
+              {updateId ? (
+                <ReminderUpdateForm
+                  id={updateId}
+                  overrides={{
+                    stepFnExecutionArn: {
+                      labelHidden: true,
+                      type: "hidden",
+                      style: { display: "none" },
+                    },
+                  }}
+                  onSuccess={() =>
+                    setNotice({ type: "success", text: "Reminder updated." })
+                  }
+                  onError={(_, errorMessage) =>
+                    setNotice({
+                      type: "error",
+                      text: `Update failed: ${errorMessage}`,
+                    })
+                  }
+                />
+              ) : (
+                <p>Enter a reminder id to load the update form.</p>
+              )}
+            </section>
+          </>
+        ) : (
+          <section style={{ marginTop: 24 }}>
+            <h2>View Reminders</h2>
+            <SocialPostCollection />
+          </section>
+        )}
       </div>
     </ThemeProvider>
   );

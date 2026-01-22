@@ -50,6 +50,30 @@ amplify pull --appId dmiq26r8zc2c1 --envName dev
 For createdAt and updatedAt attributes in model are managed automatically.
 24. 
 
+https://www.figma.com/community/file/1047600760128127424
+
+Click on "Open in Figma"
+
+Click on "Duplicate"
+
+"Primitives"
+
+"My Components" -> You can also edit to create new components
+
+Click on "Sync with Figma" -> Paste the link of Figma file -> Click on continue ->
+click on "allow access" 
+Click on "Accept All Changes"
+Click on "Accept All"
+
+Select the required component from total component -> Click on "Configure"
+
+If you want to create collection of componets, click on "Create Collection"
+
+In collection settings, select direction, filters, sort conditions, search, pagination etc.,
+
+
+25. 
+
 
 
 

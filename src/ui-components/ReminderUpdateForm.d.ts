@@ -28,6 +28,7 @@ export declare type ReminderUpdateFormInputValues = {
     description?: string;
     remindAt?: string;
     stepFnExecutionArn?: string;
+    updatedAt?: string;
 };
 export declare type ReminderUpdateFormValidationValues = {
     userId?: ValidationFunction<string>;
@@ -35,6 +36,7 @@ export declare type ReminderUpdateFormValidationValues = {
     description?: ValidationFunction<string>;
     remindAt?: ValidationFunction<string>;
     stepFnExecutionArn?: ValidationFunction<string>;
+    updatedAt?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type ReminderUpdateFormOverridesProps = {
@@ -44,6 +46,7 @@ export declare type ReminderUpdateFormOverridesProps = {
     description?: PrimitiveOverrideProps<TextFieldProps>;
     remindAt?: PrimitiveOverrideProps<TextFieldProps>;
     stepFnExecutionArn?: PrimitiveOverrideProps<TextFieldProps>;
+    updatedAt?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type ReminderUpdateFormProps = React.PropsWithChildren<{
     overrides?: ReminderUpdateFormOverridesProps | undefined | null;
