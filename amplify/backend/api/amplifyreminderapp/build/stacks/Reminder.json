@@ -111,7 +111,7 @@
             "AttributeType": "S"
           },
           {
-            "AttributeName": "updatedAt",
+            "AttributeName": "remindAt",
             "AttributeType": "S"
           }
         ],
@@ -133,7 +133,7 @@
                 "KeyType": "HASH"
               },
               {
-                "AttributeName": "updatedAt",
+                "AttributeName": "remindAt",
                 "KeyType": "RANGE"
               }
             ],
@@ -1950,7 +1950,7 @@
         "TypeName": "Subscription"
       }
     },
-    "QueryRemindersByUserIdAndUpdatedAtDataResolverFnQueryRemindersByUserIdAndUpdatedAtDataResolverFnAppSyncFunction353DF682": {
+    "QueryRemindersByUserIdAndRemindAtDataResolverFnQueryRemindersByUserIdAndRemindAtDataResolverFnAppSyncFunction2E282CBA": {
       "Type": "AWS::AppSync::FunctionConfiguration",
       "Properties": {
         "ApiId": {
@@ -1963,7 +1963,7 @@
           ]
         },
         "FunctionVersion": "2018-05-29",
-        "Name": "QueryRemindersByUserIdAndUpdatedAtDataResolverFn",
+        "Name": "QueryRemindersByUserIdAndRemindAtDataResolverFn",
         "RequestMappingTemplateS3Location": {
           "Fn::Join": [
             "",
@@ -1976,7 +1976,7 @@
               {
                 "Ref": "referencetotransformerrootstackS3DeploymentRootKeyA71EA735Ref"
               },
-              "/resolvers/Query.remindersByUserIdAndUpdatedAt.req.vtl"
+              "/resolvers/Query.remindersByUserIdAndRemindAt.req.vtl"
             ]
           ]
         },
@@ -1992,7 +1992,7 @@
               {
                 "Ref": "referencetotransformerrootstackS3DeploymentRootKeyA71EA735Ref"
               },
-              "/resolvers/Query.remindersByUserIdAndUpdatedAt.res.vtl"
+              "/resolvers/Query.remindersByUserIdAndRemindAt.res.vtl"
             ]
           ]
         },
@@ -2005,13 +2005,13 @@
         "ReminderDataSource"
       ]
     },
-    "QueryremindersByUserIdAndUpdatedAtResolver": {
+    "QueryremindersByUserIdAndRemindAtResolver": {
       "Type": "AWS::AppSync::Resolver",
       "Properties": {
         "ApiId": {
           "Ref": "referencetotransformerrootstackGraphQLAPI20497F53ApiId"
         },
-        "FieldName": "remindersByUserIdAndUpdatedAt",
+        "FieldName": "remindersByUserIdAndRemindAt",
         "Kind": "PIPELINE",
         "PipelineConfig": {
           "Functions": [
@@ -2029,7 +2029,7 @@
             },
             {
               "Fn::GetAtt": [
-                "QueryRemindersByUserIdAndUpdatedAtDataResolverFnQueryRemindersByUserIdAndUpdatedAtDataResolverFnAppSyncFunction353DF682",
+                "QueryRemindersByUserIdAndRemindAtDataResolverFnQueryRemindersByUserIdAndRemindAtDataResolverFnAppSyncFunction2E282CBA",
                 "FunctionId"
               ]
             }
@@ -2039,7 +2039,7 @@
           "Fn::Join": [
             "",
             [
-              "$util.qr($ctx.stash.put(\"typeName\", \"Query\"))\n$util.qr($ctx.stash.put(\"fieldName\", \"remindersByUserIdAndUpdatedAt\"))\n$util.qr($ctx.stash.put(\"conditions\", []))\n$util.qr($ctx.stash.put(\"metadata\", {}))\n$util.qr($ctx.stash.metadata.put(\"dataSourceType\", \"AMAZON_DYNAMODB\"))\n$util.qr($ctx.stash.metadata.put(\"apiId\", \"",
+              "$util.qr($ctx.stash.put(\"typeName\", \"Query\"))\n$util.qr($ctx.stash.put(\"fieldName\", \"remindersByUserIdAndRemindAt\"))\n$util.qr($ctx.stash.put(\"conditions\", []))\n$util.qr($ctx.stash.put(\"metadata\", {}))\n$util.qr($ctx.stash.metadata.put(\"dataSourceType\", \"AMAZON_DYNAMODB\"))\n$util.qr($ctx.stash.metadata.put(\"apiId\", \"",
               {
                 "Ref": "referencetotransformerrootstackGraphQLAPI20497F53ApiId"
               },

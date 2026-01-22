@@ -3,10 +3,10 @@ type Reminder @aws_iam @aws_api_key {
   userId: String!
   title: String!
   description: String!
-  remindAt: String!
+  remindAt: AWSDateTime!
   stepFnExecutionArn: String
-  updatedAt: AWSDateTime
   createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
   _version: Int!
   _deleted: Boolean
   _lastChangedAt: AWSTimestamp!
@@ -175,8 +175,8 @@ input ModelReminderFilterInput {
   description: ModelStringInput
   remindAt: ModelStringInput
   stepFnExecutionArn: ModelStringInput
-  updatedAt: ModelStringInput
   createdAt: ModelStringInput
+  updatedAt: ModelStringInput
   and: [ModelReminderFilterInput]
   or: [ModelReminderFilterInput]
   not: ModelReminderFilterInput
@@ -187,7 +187,7 @@ type Query {
   getReminder(id: ID!): Reminder @aws_api_key @aws_iam
   listReminders(id: ID, filter: ModelReminderFilterInput, limit: Int, nextToken: String, sortDirection: ModelSortDirection): ModelReminderConnection @aws_api_key @aws_iam
   syncReminders(filter: ModelReminderFilterInput, limit: Int, nextToken: String, lastSync: AWSTimestamp): ModelReminderConnection @aws_api_key @aws_iam
-  remindersByUserIdAndUpdatedAt(userId: String!, updatedAt: ModelStringKeyConditionInput, sortDirection: ModelSortDirection, filter: ModelReminderFilterInput, limit: Int, nextToken: String): ModelReminderConnection @aws_api_key @aws_iam
+  remindersByUserIdAndRemindAt(userId: String!, remindAt: ModelStringKeyConditionInput, sortDirection: ModelSortDirection, filter: ModelReminderFilterInput, limit: Int, nextToken: String): ModelReminderConnection @aws_api_key @aws_iam
 }
 
 input ModelReminderConditionInput {
@@ -196,12 +196,12 @@ input ModelReminderConditionInput {
   description: ModelStringInput
   remindAt: ModelStringInput
   stepFnExecutionArn: ModelStringInput
-  updatedAt: ModelStringInput
   and: [ModelReminderConditionInput]
   or: [ModelReminderConditionInput]
   not: ModelReminderConditionInput
   _deleted: ModelBooleanInput
   createdAt: ModelStringInput
+  updatedAt: ModelStringInput
 }
 
 input CreateReminderInput {
@@ -209,9 +209,8 @@ input CreateReminderInput {
   userId: String!
   title: String!
   description: String!
-  remindAt: String!
+  remindAt: AWSDateTime!
   stepFnExecutionArn: String
-  updatedAt: AWSDateTime
   _version: Int
 }
 
@@ -220,9 +219,8 @@ input UpdateReminderInput {
   userId: String
   title: String
   description: String
-  remindAt: String
+  remindAt: AWSDateTime
   stepFnExecutionArn: String
-  updatedAt: AWSDateTime
   _version: Int
 }
 
@@ -244,8 +242,8 @@ input ModelSubscriptionReminderFilterInput {
   description: ModelSubscriptionStringInput
   remindAt: ModelSubscriptionStringInput
   stepFnExecutionArn: ModelSubscriptionStringInput
-  updatedAt: ModelSubscriptionStringInput
   createdAt: ModelSubscriptionStringInput
+  updatedAt: ModelSubscriptionStringInput
   and: [ModelSubscriptionReminderFilterInput]
   or: [ModelSubscriptionReminderFilterInput]
   _deleted: ModelBooleanInput

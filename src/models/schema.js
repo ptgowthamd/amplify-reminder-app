@@ -34,7 +34,7 @@ export const schema = {
                 "remindAt": {
                     "name": "remindAt",
                     "isArray": false,
-                    "type": "String",
+                    "type": "AWSDateTime",
                     "isRequired": true,
                     "attributes": []
                 },
@@ -45,15 +45,16 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
-                "updatedAt": {
-                    "name": "updatedAt",
+                "createdAt": {
+                    "name": "createdAt",
                     "isArray": false,
                     "type": "AWSDateTime",
                     "isRequired": false,
-                    "attributes": []
+                    "attributes": [],
+                    "isReadOnly": true
                 },
-                "createdAt": {
-                    "name": "createdAt",
+                "updatedAt": {
+                    "name": "updatedAt",
                     "isArray": false,
                     "type": "AWSDateTime",
                     "isRequired": false,
@@ -82,7 +83,7 @@ export const schema = {
                         "name": "byUser",
                         "fields": [
                             "userId",
-                            "updatedAt"
+                            "remindAt"
                         ]
                     }
                 },
@@ -108,5 +109,5 @@ export const schema = {
     "enums": {},
     "nonModels": {},
     "codegenVersion": "3.4.4",
-    "version": "e86319cd55522793753ca37666ae9188"
+    "version": "12e84500d2050a54c252587bdfd88acb"
 };

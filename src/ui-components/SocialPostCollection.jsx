@@ -26,11 +26,13 @@ export default function SocialPostCollection(props) {
   }, [itemsProp, itemsDataStore]);
   return (
     <Collection
-      type="list"
+      type="grid"
       isPaginated={true}
       searchPlaceholder="Search..."
-      direction="column"
-      justifyContent="left"
+      templateColumns="1fr 1fr 1fr"
+      autoFlow="row"
+      alignItems="stretch"
+      justifyContent="stretch"
       items={items || []}
       {...getOverrideProps(overrides, "SocialPostCollection")}
       {...rest}

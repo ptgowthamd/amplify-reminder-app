@@ -71,7 +71,7 @@ If you want to create collection of componets, click on "Create Collection"
 
 In collection settings, select direction, filters, sort conditions, search, pagination etc.,
 
-
+After make any changes in Figma designs, to affect those changes into react components, click on "Sync with Figma" button, next configure as required and pull the changes into project code base.
 25. 
 
 

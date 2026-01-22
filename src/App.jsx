@@ -15,7 +15,13 @@ function App() {
 
   return (
     <ThemeProvider theme={studioTheme}>
-      <div style={{ maxWidth: 720, margin: "0 auto", padding: 24 }}>
+      <div
+        style={{
+          maxWidth: view === "list" ? 1200 : 720,
+          margin: "0 auto",
+          padding: 24,
+        }}
+      >
         <h1>Reminders</h1>
 
         <div style={{ display: "flex", gap: 12, justifyContent: "center" }}>
@@ -100,7 +106,20 @@ function App() {
         ) : (
           <section style={{ marginTop: 24 }}>
             <h2>View Reminders</h2>
-            <SocialPostCollection />
+            <SocialPostCollection
+              templateColumns="repeat(auto-fit, minmax(260px, 1fr))"
+              gap="12px"
+              alignItems="stretch"
+              overrideItems={() => ({
+                overrides: {
+                  SocialPost: {
+                    width: "100%",
+                    height: "auto",
+                    padding: "16px",
+                  },
+                },
+              })}
+            />
           </section>
         )}
       </div>

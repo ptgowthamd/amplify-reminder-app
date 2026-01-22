@@ -9,7 +9,7 @@ import { LazyLoading, LazyLoadingDisabled } from "@aws-amplify/datastore";
 type EagerReminder = {
   readonly [__modelMeta__]: {
     identifier: OptionallyManagedIdentifier<Reminder, 'id'>;
-    readOnlyFields: 'createdAt';
+    readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
   readonly userId: string;
@@ -17,14 +17,14 @@ type EagerReminder = {
   readonly description: string;
   readonly remindAt: string;
   readonly stepFnExecutionArn?: string | null;
-  readonly updatedAt?: string | null;
   readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
 }
 
 type LazyReminder = {
   readonly [__modelMeta__]: {
     identifier: OptionallyManagedIdentifier<Reminder, 'id'>;
-    readOnlyFields: 'createdAt';
+    readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
   readonly userId: string;
@@ -32,8 +32,8 @@ type LazyReminder = {
   readonly description: string;
   readonly remindAt: string;
   readonly stepFnExecutionArn?: string | null;
-  readonly updatedAt?: string | null;
   readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
 }
 
 export declare type Reminder = LazyLoading extends LazyLoadingDisabled ? EagerReminder : LazyReminder

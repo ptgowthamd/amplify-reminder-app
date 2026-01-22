@@ -1,8 +1,8 @@
 ## [Start] Set query expression for key **
 #set( $modelQueryExpression = {} )
 ## [Start] Validate key arguments. **
-#if( !$util.isNull($ctx.args.updatedAt) && $util.isNull($ctx.args.userId) )
-  $util.error("When providing argument 'updatedAt' you must also provide arguments userId", "InvalidArgumentsError")
+#if( !$util.isNull($ctx.args.remindAt) && $util.isNull($ctx.args.userId) )
+  $util.error("When providing argument 'remindAt' you must also provide arguments userId", "InvalidArgumentsError")
 #end
 ## [End] Validate key arguments. **
 #if( !$util.isNull($ctx.args.userId) )
@@ -17,41 +17,41 @@
 } )
 #end
 ## [Start] Applying Key Condition **
-#if( !$util.isNull($ctx.args.updatedAt) && !$util.isNull($ctx.args.updatedAt.beginsWith) )
+#if( !$util.isNull($ctx.args.remindAt) && !$util.isNull($ctx.args.remindAt.beginsWith) )
   #set( $modelQueryExpression.expression = "$modelQueryExpression.expression AND begins_with(#sortKey, :sortKey)" )
-  $util.qr($modelQueryExpression.expressionNames.put("#sortKey", "updatedAt"))
-  $util.qr($modelQueryExpression.expressionValues.put(":sortKey", { "S": "$ctx.args.updatedAt.beginsWith" }))
+  $util.qr($modelQueryExpression.expressionNames.put("#sortKey", "remindAt"))
+  $util.qr($modelQueryExpression.expressionValues.put(":sortKey", { "S": "$ctx.args.remindAt.beginsWith" }))
 #end
-#if( !$util.isNull($ctx.args.updatedAt) && !$util.isNull($ctx.args.updatedAt.between) )
+#if( !$util.isNull($ctx.args.remindAt) && !$util.isNull($ctx.args.remindAt.between) )
   #set( $modelQueryExpression.expression = "$modelQueryExpression.expression AND #sortKey BETWEEN :sortKey0 AND :sortKey1" )
-  $util.qr($modelQueryExpression.expressionNames.put("#sortKey", "updatedAt"))
-  $util.qr($modelQueryExpression.expressionValues.put(":sortKey0", { "S": "$ctx.args.updatedAt.between[0]" }))
-  $util.qr($modelQueryExpression.expressionValues.put(":sortKey1", { "S": "$ctx.args.updatedAt.between[1]" }))
+  $util.qr($modelQueryExpression.expressionNames.put("#sortKey", "remindAt"))
+  $util.qr($modelQueryExpression.expressionValues.put(":sortKey0", { "S": "$ctx.args.remindAt.between[0]" }))
+  $util.qr($modelQueryExpression.expressionValues.put(":sortKey1", { "S": "$ctx.args.remindAt.between[1]" }))
 #end
-#if( !$util.isNull($ctx.args.updatedAt) && !$util.isNull($ctx.args.updatedAt.eq) )
+#if( !$util.isNull($ctx.args.remindAt) && !$util.isNull($ctx.args.remindAt.eq) )
   #set( $modelQueryExpression.expression = "$modelQueryExpression.expression AND #sortKey = :sortKey" )
-  $util.qr($modelQueryExpression.expressionNames.put("#sortKey", "updatedAt"))
-  $util.qr($modelQueryExpression.expressionValues.put(":sortKey", { "S": "$ctx.args.updatedAt.eq" }))
+  $util.qr($modelQueryExpression.expressionNames.put("#sortKey", "remindAt"))
+  $util.qr($modelQueryExpression.expressionValues.put(":sortKey", { "S": "$ctx.args.remindAt.eq" }))
 #end
-#if( !$util.isNull($ctx.args.updatedAt) && !$util.isNull($ctx.args.updatedAt.lt) )
+#if( !$util.isNull($ctx.args.remindAt) && !$util.isNull($ctx.args.remindAt.lt) )
   #set( $modelQueryExpression.expression = "$modelQueryExpression.expression AND #sortKey < :sortKey" )
-  $util.qr($modelQueryExpression.expressionNames.put("#sortKey", "updatedAt"))
-  $util.qr($modelQueryExpression.expressionValues.put(":sortKey", { "S": "$ctx.args.updatedAt.lt" }))
+  $util.qr($modelQueryExpression.expressionNames.put("#sortKey", "remindAt"))
+  $util.qr($modelQueryExpression.expressionValues.put(":sortKey", { "S": "$ctx.args.remindAt.lt" }))
 #end
-#if( !$util.isNull($ctx.args.updatedAt) && !$util.isNull($ctx.args.updatedAt.le) )
+#if( !$util.isNull($ctx.args.remindAt) && !$util.isNull($ctx.args.remindAt.le) )
   #set( $modelQueryExpression.expression = "$modelQueryExpression.expression AND #sortKey <= :sortKey" )
-  $util.qr($modelQueryExpression.expressionNames.put("#sortKey", "updatedAt"))
-  $util.qr($modelQueryExpression.expressionValues.put(":sortKey", { "S": "$ctx.args.updatedAt.le" }))
+  $util.qr($modelQueryExpression.expressionNames.put("#sortKey", "remindAt"))
+  $util.qr($modelQueryExpression.expressionValues.put(":sortKey", { "S": "$ctx.args.remindAt.le" }))
 #end
-#if( !$util.isNull($ctx.args.updatedAt) && !$util.isNull($ctx.args.updatedAt.gt) )
+#if( !$util.isNull($ctx.args.remindAt) && !$util.isNull($ctx.args.remindAt.gt) )
   #set( $modelQueryExpression.expression = "$modelQueryExpression.expression AND #sortKey > :sortKey" )
-  $util.qr($modelQueryExpression.expressionNames.put("#sortKey", "updatedAt"))
-  $util.qr($modelQueryExpression.expressionValues.put(":sortKey", { "S": "$ctx.args.updatedAt.gt" }))
+  $util.qr($modelQueryExpression.expressionNames.put("#sortKey", "remindAt"))
+  $util.qr($modelQueryExpression.expressionValues.put(":sortKey", { "S": "$ctx.args.remindAt.gt" }))
 #end
-#if( !$util.isNull($ctx.args.updatedAt) && !$util.isNull($ctx.args.updatedAt.ge) )
+#if( !$util.isNull($ctx.args.remindAt) && !$util.isNull($ctx.args.remindAt.ge) )
   #set( $modelQueryExpression.expression = "$modelQueryExpression.expression AND #sortKey >= :sortKey" )
-  $util.qr($modelQueryExpression.expressionNames.put("#sortKey", "updatedAt"))
-  $util.qr($modelQueryExpression.expressionValues.put(":sortKey", { "S": "$ctx.args.updatedAt.ge" }))
+  $util.qr($modelQueryExpression.expressionNames.put("#sortKey", "remindAt"))
+  $util.qr($modelQueryExpression.expressionValues.put(":sortKey", { "S": "$ctx.args.remindAt.ge" }))
 #end
 ## [End] Applying Key Condition **
 ## [End] Set query expression for key **
