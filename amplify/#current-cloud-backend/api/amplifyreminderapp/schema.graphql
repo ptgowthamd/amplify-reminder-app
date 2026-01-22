@@ -4,4 +4,6 @@ type Reminder @model @auth(rules: [{allow: public}]) {
   title: String!
   description: String!
   remindAt: String!
-} 
+  stepFnExecutionArn: String
+}
+ 

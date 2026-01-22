@@ -36,12 +36,12 @@
       },
       "providerPlugin": "awscloudformation",
       "service": "AppSync",
-      "lastPushTimeStamp": "2026-01-21T15:53:04.577Z",
+      "lastPushTimeStamp": "2026-01-21T16:26:50.350Z",
       "providerMetadata": {
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-amplifyreminderapp-dev-8ae81-deployment/amplify-cfn-templates/api/cloudformation-template.json",
         "logicalId": "apiamplifyreminderapp"
       },
-      "lastPushDirHash": "qKfoTvEM6MRTvnTRmAgKtrNK7N4="
+      "lastPushDirHash": "yzB38n5EGsQS6DpthilI4rUsj+k="
     }
   }
 }

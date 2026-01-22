@@ -16,6 +16,7 @@ type EagerReminder = {
   readonly title: string;
   readonly description: string;
   readonly remindAt: string;
+  readonly stepFnExecutionArn?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -30,6 +31,7 @@ type LazyReminder = {
   readonly title: string;
   readonly description: string;
   readonly remindAt: string;
+  readonly stepFnExecutionArn?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }

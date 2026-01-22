@@ -31,6 +31,13 @@ function App() {
           <h2>Create Reminder</h2>
           <ReminderCreateForm
             clearOnSuccess
+            overrides={{
+              stepFnExecutionArn: {
+                labelHidden: true,
+                type: "hidden",
+                style: { display: "none" },
+              },
+            }}
             onSuccess={() =>
               setNotice({ type: "success", text: "Reminder created." })
             }
@@ -55,6 +62,13 @@ function App() {
           {updateId ? (
             <ReminderUpdateForm
               id={updateId}
+              overrides={{
+                stepFnExecutionArn: {
+                  labelHidden: true,
+                  type: "hidden",
+                  style: { display: "none" },
+                },
+              }}
               onSuccess={() =>
                 setNotice({ type: "success", text: "Reminder updated." })
               }

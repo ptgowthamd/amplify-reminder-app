@@ -26,12 +26,14 @@ export declare type ReminderCreateFormInputValues = {
     title?: string;
     description?: string;
     remindAt?: string;
+    stepFnExecutionArn?: string;
 };
 export declare type ReminderCreateFormValidationValues = {
     userId?: ValidationFunction<string>;
     title?: ValidationFunction<string>;
     description?: ValidationFunction<string>;
     remindAt?: ValidationFunction<string>;
+    stepFnExecutionArn?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type ReminderCreateFormOverridesProps = {
@@ -40,6 +42,7 @@ export declare type ReminderCreateFormOverridesProps = {
     title?: PrimitiveOverrideProps<TextFieldProps>;
     description?: PrimitiveOverrideProps<TextFieldProps>;
     remindAt?: PrimitiveOverrideProps<TextFieldProps>;
+    stepFnExecutionArn?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type ReminderCreateFormProps = React.PropsWithChildren<{
     overrides?: ReminderCreateFormOverridesProps | undefined | null;

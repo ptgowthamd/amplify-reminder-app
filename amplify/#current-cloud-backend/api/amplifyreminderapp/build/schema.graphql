@@ -4,6 +4,7 @@ type Reminder @aws_iam @aws_api_key {
   title: String!
   description: String!
   remindAt: String!
+  stepFnExecutionArn: String
   createdAt: AWSDateTime!
   updatedAt: AWSDateTime!
   _version: Int!
@@ -173,6 +174,7 @@ input ModelReminderFilterInput {
   title: ModelStringInput
   description: ModelStringInput
   remindAt: ModelStringInput
+  stepFnExecutionArn: ModelStringInput
   createdAt: ModelStringInput
   updatedAt: ModelStringInput
   and: [ModelReminderFilterInput]
@@ -192,6 +194,7 @@ input ModelReminderConditionInput {
   title: ModelStringInput
   description: ModelStringInput
   remindAt: ModelStringInput
+  stepFnExecutionArn: ModelStringInput
   and: [ModelReminderConditionInput]
   or: [ModelReminderConditionInput]
   not: ModelReminderConditionInput
@@ -206,6 +209,7 @@ input CreateReminderInput {
   title: String!
   description: String!
   remindAt: String!
+  stepFnExecutionArn: String
   _version: Int
 }
 
@@ -215,6 +219,7 @@ input UpdateReminderInput {
   title: String
   description: String
   remindAt: String
+  stepFnExecutionArn: String
   _version: Int
 }
 
@@ -235,6 +240,7 @@ input ModelSubscriptionReminderFilterInput {
   title: ModelSubscriptionStringInput
   description: ModelSubscriptionStringInput
   remindAt: ModelSubscriptionStringInput
+  stepFnExecutionArn: ModelSubscriptionStringInput
   createdAt: ModelSubscriptionStringInput
   updatedAt: ModelSubscriptionStringInput
   and: [ModelSubscriptionReminderFilterInput]

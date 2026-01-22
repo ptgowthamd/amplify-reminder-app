@@ -27,6 +27,7 @@ export default function ReminderUpdateForm(props) {
     title: "",
     description: "",
     remindAt: "",
+    stepFnExecutionArn: "",
   };
   const [userId, setUserId] = React.useState(initialValues.userId);
   const [title, setTitle] = React.useState(initialValues.title);
@@ -34,6 +35,9 @@ export default function ReminderUpdateForm(props) {
     initialValues.description
   );
   const [remindAt, setRemindAt] = React.useState(initialValues.remindAt);
+  const [stepFnExecutionArn, setStepFnExecutionArn] = React.useState(
+    initialValues.stepFnExecutionArn
+  );
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     const cleanValues = reminderRecord
@@ -43,6 +47,7 @@ export default function ReminderUpdateForm(props) {
     setTitle(cleanValues.title);
     setDescription(cleanValues.description);
     setRemindAt(cleanValues.remindAt);
+    setStepFnExecutionArn(cleanValues.stepFnExecutionArn);
     setErrors({});
   };
   const [reminderRecord, setReminderRecord] = React.useState(reminderModelProp);
@@ -61,6 +66,7 @@ export default function ReminderUpdateForm(props) {
     title: [{ type: "Required" }],
     description: [{ type: "Required" }],
     remindAt: [{ type: "Required" }],
+    stepFnExecutionArn: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -92,6 +98,7 @@ export default function ReminderUpdateForm(props) {
           title,
           description,
           remindAt,
+          stepFnExecutionArn,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -151,6 +158,7 @@ export default function ReminderUpdateForm(props) {
               title,
               description,
               remindAt,
+              stepFnExecutionArn,
             };
             const result = onChange(modelFields);
             value = result?.userId ?? value;
@@ -178,6 +186,7 @@ export default function ReminderUpdateForm(props) {
               title: value,
               description,
               remindAt,
+              stepFnExecutionArn,
             };
             const result = onChange(modelFields);
             value = result?.title ?? value;
@@ -205,6 +214,7 @@ export default function ReminderUpdateForm(props) {
               title,
               description: value,
               remindAt,
+              stepFnExecutionArn,
             };
             const result = onChange(modelFields);
             value = result?.description ?? value;
@@ -232,6 +242,7 @@ export default function ReminderUpdateForm(props) {
               title,
               description,
               remindAt: value,
+              stepFnExecutionArn,
             };
             const result = onChange(modelFields);
             value = result?.remindAt ?? value;
@@ -245,6 +256,36 @@ export default function ReminderUpdateForm(props) {
         errorMessage={errors.remindAt?.errorMessage}
         hasError={errors.remindAt?.hasError}
         {...getOverrideProps(overrides, "remindAt")}
+      ></TextField>
+      <TextField
+        label="Step fn execution arn"
+        isRequired={false}
+        isReadOnly={false}
+        value={stepFnExecutionArn}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              userId,
+              title,
+              description,
+              remindAt,
+              stepFnExecutionArn: value,
+            };
+            const result = onChange(modelFields);
+            value = result?.stepFnExecutionArn ?? value;
+          }
+          if (errors.stepFnExecutionArn?.hasError) {
+            runValidationTasks("stepFnExecutionArn", value);
+          }
+          setStepFnExecutionArn(value);
+        }}
+        onBlur={() =>
+          runValidationTasks("stepFnExecutionArn", stepFnExecutionArn)
+        }
+        errorMessage={errors.stepFnExecutionArn?.errorMessage}
+        hasError={errors.stepFnExecutionArn?.hasError}
+        {...getOverrideProps(overrides, "stepFnExecutionArn")}
       ></TextField>
       <Flex
         justifyContent="space-between"
