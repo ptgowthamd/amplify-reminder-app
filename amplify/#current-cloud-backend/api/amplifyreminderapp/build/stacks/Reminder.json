@@ -1950,6 +1950,36 @@
         "TypeName": "Subscription"
       }
     },
+    "QueryremindersByUserIdAndRemindAtauth0FunctionQueryremindersByUserIdAndRemindAtauth0FunctionAppSyncFunction6C983AFE": {
+      "Type": "AWS::AppSync::FunctionConfiguration",
+      "Properties": {
+        "ApiId": {
+          "Ref": "referencetotransformerrootstackGraphQLAPI20497F53ApiId"
+        },
+        "DataSourceName": {
+          "Ref": "referencetotransformerrootstackGraphQLAPINONEDS2BA9D1C8Name"
+        },
+        "FunctionVersion": "2018-05-29",
+        "Name": "QueryremindersByUserIdAndRemindAtauth0Function",
+        "RequestMappingTemplateS3Location": {
+          "Fn::Join": [
+            "",
+            [
+              "s3://",
+              {
+                "Ref": "referencetotransformerrootstackS3DeploymentBucket7592718ARef"
+              },
+              "/",
+              {
+                "Ref": "referencetotransformerrootstackS3DeploymentRootKeyA71EA735Ref"
+              },
+              "/resolvers/Query.remindersByUserIdAndRemindAt.auth.1.req.vtl"
+            ]
+          ]
+        },
+        "ResponseMappingTemplate": "$util.toJson({})"
+      }
+    },
     "QueryRemindersByUserIdAndRemindAtDataResolverFnQueryRemindersByUserIdAndRemindAtDataResolverFnAppSyncFunction2E282CBA": {
       "Type": "AWS::AppSync::FunctionConfiguration",
       "Properties": {
@@ -2017,7 +2047,7 @@
           "Functions": [
             {
               "Fn::GetAtt": [
-                "QuerygetReminderauth0FunctionQuerygetReminderauth0FunctionAppSyncFunctionDEE8EF01",
+                "QueryremindersByUserIdAndRemindAtauth0FunctionQueryremindersByUserIdAndRemindAtauth0FunctionAppSyncFunction6C983AFE",
                 "FunctionId"
               ]
             },

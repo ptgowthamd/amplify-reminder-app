@@ -92,7 +92,10 @@ export const schema = {
                     "properties": {
                         "rules": [
                             {
-                                "allow": "public",
+                                "provider": "userPools",
+                                "ownerField": "userId",
+                                "allow": "owner",
+                                "identityClaim": "sub",
                                 "operations": [
                                     "create",
                                     "update",

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Alert,
   Authenticator,
@@ -6,6 +6,7 @@ import {
   ThemeProvider,
   useAuthenticator,
 } from "@aws-amplify/ui-react";
+import { DataStore } from "aws-amplify/datastore";
 import "./App.css";
 import {
   ReminderCreateForm,
@@ -13,6 +14,7 @@ import {
   SocialPostCollection,
   studioTheme,
 } from "./ui-components";
+import { Reminder } from "./models";
 
 function SignUpFormFields() {
   const { validationErrors } = useAuthenticator();
@@ -35,6 +37,21 @@ function ReminderApp({ userSub, onSignOut }) {
   const [updateId, setUpdateId] = useState("");
   const [notice, setNotice] = useState(null);
   const [view, setView] = useState("forms");
+  const [userReminders, setUserReminders] = useState([]);
+
+  useEffect(() => {
+    if (!userSub) {
+      setUserReminders([]);
+      return undefined;
+    }
+    const subscription = DataStore.observeQuery(Reminder, (r) =>
+      r.userId.eq(userSub)
+    ).subscribe(({ items }) => {
+      setUserReminders(items);
+    });
+
+    return () => subscription.unsubscribe();
+  }, [userSub]);
 
   return (
     <ThemeProvider theme={studioTheme}>
@@ -90,10 +107,18 @@ function ReminderApp({ userSub, onSignOut }) {
                     style: { display: "none" },
                   },
                 }}
+                onChange={(fields) => ({
+                  ...fields,
+                  userId: userSub,
+                })}
                 onSubmit={(fields) => ({
                   ...fields,
                   userId: userSub,
                 })}
+                onValidate={{
+                  userId: (value, validationResponse) =>
+                    userSub ? { hasError: false } : validationResponse,
+                }}
                 onSuccess={() =>
                   setNotice({ type: "success", text: "Reminder created." })
                 }
@@ -130,10 +155,18 @@ function ReminderApp({ userSub, onSignOut }) {
                       style: { display: "none" },
                     },
                   }}
+                  onChange={(fields) => ({
+                    ...fields,
+                    userId: userSub,
+                  })}
                   onSubmit={(fields) => ({
                     ...fields,
                     userId: userSub,
                   })}
+                  onValidate={{
+                    userId: (value, validationResponse) =>
+                      userSub ? { hasError: false } : validationResponse,
+                  }}
                   onSuccess={() =>
                     setNotice({ type: "success", text: "Reminder updated." })
                   }
@@ -153,6 +186,7 @@ function ReminderApp({ userSub, onSignOut }) {
           <section style={{ marginTop: 24 }}>
             <h2>View Reminders</h2>
             <SocialPostCollection
+              items={userReminders}
               templateColumns="repeat(auto-fit, minmax(260px, 1fr))"
               gap="12px"
               alignItems="stretch"

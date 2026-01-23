@@ -1,9 +1,6 @@
 ## [Start] Authorization Steps. **
 $util.qr($ctx.stash.put("hasAuth", true))
 #set( $isAuthorized = false )
-#if( $util.authType() == "API Key Authorization" )
-  #set( $isAuthorized = true )
-#end
 #if( $util.authType() == "IAM Authorization" )
   #foreach( $adminRole in $ctx.stash.adminRoles )
     #if( $ctx.identity.userArn.contains($adminRole) && $ctx.identity.userArn != $ctx.stash.authRole && $ctx.identity.userArn != $ctx.stash.unauthRole )
@@ -11,6 +8,19 @@ $util.qr($ctx.stash.put("hasAuth", true))
     #end
   #end
 $util.unauthorized()
+#end
+#if( $util.authType() == "User Pool Authorization" )
+  #if( !$isAuthorized )
+    #set( $ownerEntity0 = $util.defaultIfNull($ctx.result.userId, null) )
+    #set( $ownerClaim0 = $util.defaultIfNull($ctx.identity.claims.get("sub"), null) )
+    #if( !$util.isNull($ownerClaim0) )
+
+      #set( $ownerClaimsList0 = [] )
+      #if( $ownerEntity0 == $ownerClaim0 || $ownerClaimsList0.contains($ownerEntity0) )
+        #set( $isAuthorized = true )
+      #end
+    #end
+  #end
 #end
 #if( !$isAuthorized )
 $util.unauthorized()
