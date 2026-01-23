@@ -8,9 +8,6 @@ $util.qr($ctx.stash.put("hasAuth", true))
 #set( $allowedFields = [] )
 #set( $nullAllowedFields = [] )
 #set( $deniedFields = {} )
-#if( $util.authType() == "API Key Authorization" )
-  #set( $isAuthorized = true )
-#end
 #if( $util.authType() == "IAM Authorization" )
   #foreach( $adminRole in $ctx.stash.adminRoles )
     #if( $ctx.identity.userArn.contains($adminRole) && $ctx.identity.userArn != $ctx.stash.authRole && $ctx.identity.userArn != $ctx.stash.unauthRole )
@@ -18,6 +15,27 @@ $util.qr($ctx.stash.put("hasAuth", true))
     #end
   #end
 $util.unauthorized()
+#end
+#if( $util.authType() == "User Pool Authorization" )
+  #if( !$isAuthorized )
+    #set( $ownerEntity0 = $util.defaultIfNull($ctx.result.userId, null) )
+    #set( $ownerClaim0 = $util.defaultIfNull($ctx.identity.claims.get("sub"), null) )
+    #if( !$util.isNull($ownerClaim0) )
+
+      #set( $ownerClaimsList0 = [] )
+      #set( $ownerAllowedFields0 = ["id","userId","title","description","remindAt","stepFnExecutionArn","_version","_deleted","_lastChangedAt"] )
+      #set( $ownerNullAllowedFields0 = ["id","userId","title","description","remindAt","stepFnExecutionArn"] )
+      #set( $isAuthorizedOnAllFields0 = true )
+      #if( $ownerEntity0 == $ownerClaim0 || $ownerClaimsList0.contains($ownerEntity0) )
+        #if( $isAuthorizedOnAllFields0 )
+          #set( $isAuthorized = true )
+        #else
+          $util.qr($allowedFields.addAll($ownerAllowedFields0))
+          $util.qr($nullAllowedFields.addAll($ownerNullAllowedFields0))
+        #end
+      #end
+    #end
+  #end
 #end
 #if( !$isAuthorized && $allowedFields.isEmpty() && $nullAllowedFields.isEmpty() )
 $util.unauthorized()

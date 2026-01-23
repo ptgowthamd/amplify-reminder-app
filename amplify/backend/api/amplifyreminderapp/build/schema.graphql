@@ -1,4 +1,4 @@
-type Reminder @aws_iam @aws_api_key {
+type Reminder @aws_iam @aws_cognito_user_pools {
   id: ID!
   userId: String!
   title: String!
@@ -162,7 +162,7 @@ enum ModelSortDirection {
   DESC
 }
 
-type ModelReminderConnection @aws_api_key @aws_iam {
+type ModelReminderConnection @aws_iam @aws_cognito_user_pools {
   items: [Reminder]!
   nextToken: String
   startedAt: AWSTimestamp
@@ -184,10 +184,10 @@ input ModelReminderFilterInput {
 }
 
 type Query {
-  getReminder(id: ID!): Reminder @aws_api_key @aws_iam
-  listReminders(id: ID, filter: ModelReminderFilterInput, limit: Int, nextToken: String, sortDirection: ModelSortDirection): ModelReminderConnection @aws_api_key @aws_iam
-  syncReminders(filter: ModelReminderFilterInput, limit: Int, nextToken: String, lastSync: AWSTimestamp): ModelReminderConnection @aws_api_key @aws_iam
-  remindersByUserIdAndRemindAt(userId: String!, remindAt: ModelStringKeyConditionInput, sortDirection: ModelSortDirection, filter: ModelReminderFilterInput, limit: Int, nextToken: String): ModelReminderConnection @aws_api_key @aws_iam
+  getReminder(id: ID!): Reminder @aws_iam @aws_cognito_user_pools
+  listReminders(id: ID, filter: ModelReminderFilterInput, limit: Int, nextToken: String, sortDirection: ModelSortDirection): ModelReminderConnection @aws_iam @aws_cognito_user_pools
+  syncReminders(filter: ModelReminderFilterInput, limit: Int, nextToken: String, lastSync: AWSTimestamp): ModelReminderConnection @aws_iam @aws_cognito_user_pools
+  remindersByUserIdAndRemindAt(userId: String!, remindAt: ModelStringKeyConditionInput, sortDirection: ModelSortDirection, filter: ModelReminderFilterInput, limit: Int, nextToken: String): ModelReminderConnection @aws_iam @aws_cognito_user_pools
 }
 
 input ModelReminderConditionInput {
@@ -230,14 +230,13 @@ input DeleteReminderInput {
 }
 
 type Mutation {
-  createReminder(input: CreateReminderInput!, condition: ModelReminderConditionInput): Reminder @aws_api_key @aws_iam
-  updateReminder(input: UpdateReminderInput!, condition: ModelReminderConditionInput): Reminder @aws_api_key @aws_iam
-  deleteReminder(input: DeleteReminderInput!, condition: ModelReminderConditionInput): Reminder @aws_api_key @aws_iam
+  createReminder(input: CreateReminderInput!, condition: ModelReminderConditionInput): Reminder @aws_iam @aws_cognito_user_pools
+  updateReminder(input: UpdateReminderInput!, condition: ModelReminderConditionInput): Reminder @aws_iam @aws_cognito_user_pools
+  deleteReminder(input: DeleteReminderInput!, condition: ModelReminderConditionInput): Reminder @aws_iam @aws_cognito_user_pools
 }
 
 input ModelSubscriptionReminderFilterInput {
   id: ModelSubscriptionIDInput
-  userId: ModelSubscriptionStringInput
   title: ModelSubscriptionStringInput
   description: ModelSubscriptionStringInput
   remindAt: ModelSubscriptionStringInput
@@ -247,12 +246,13 @@ input ModelSubscriptionReminderFilterInput {
   and: [ModelSubscriptionReminderFilterInput]
   or: [ModelSubscriptionReminderFilterInput]
   _deleted: ModelBooleanInput
+  userId: ModelStringInput
 }
 
 type Subscription {
-  onCreateReminder(filter: ModelSubscriptionReminderFilterInput): Reminder @aws_subscribe(mutations: ["createReminder"]) @aws_api_key @aws_iam
-  onUpdateReminder(filter: ModelSubscriptionReminderFilterInput): Reminder @aws_subscribe(mutations: ["updateReminder"]) @aws_api_key @aws_iam
-  onDeleteReminder(filter: ModelSubscriptionReminderFilterInput): Reminder @aws_subscribe(mutations: ["deleteReminder"]) @aws_api_key @aws_iam
+  onCreateReminder(filter: ModelSubscriptionReminderFilterInput, userId: String): Reminder @aws_subscribe(mutations: ["createReminder"]) @aws_iam @aws_cognito_user_pools
+  onUpdateReminder(filter: ModelSubscriptionReminderFilterInput, userId: String): Reminder @aws_subscribe(mutations: ["updateReminder"]) @aws_iam @aws_cognito_user_pools
+  onDeleteReminder(filter: ModelSubscriptionReminderFilterInput, userId: String): Reminder @aws_subscribe(mutations: ["deleteReminder"]) @aws_iam @aws_cognito_user_pools
 }
 
 input ModelStringKeyConditionInput {

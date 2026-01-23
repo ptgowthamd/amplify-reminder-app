@@ -72,7 +72,8 @@ If you want to create collection of componets, click on "Create Collection"
 In collection settings, select direction, filters, sort conditions, search, pagination etc.,
 
 After make any changes in Figma designs, to affect those changes into react components, click on "Sync with Figma" button, accept changes, next configure as required and pull the changes into project code base.
-25. Add Auth and related steps in separate doc.
+25. Add Coginito userpools for Auth and related steps in separate doc.
+26. Update graphql api to change auth type to cognito-userpool if it's using API-key as default auth type.
 
 
 
