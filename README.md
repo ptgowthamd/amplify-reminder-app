@@ -84,6 +84,8 @@ To disable "conflict detection" on the API : amplify update api -> conflict dete
 In my case, added AWS_IAM as additional auth-type. API_KEY additional auth-type also required.
 After studio work done, you can switch back to only Cognito auth-type, no additional auth-types.
 
+After removed addtional auth-types, make sure additionalAuthTypes section is emptyin cli-inputs.json
+
 
 # React + Vite
 

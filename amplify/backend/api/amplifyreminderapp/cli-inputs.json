@@ -8,15 +8,6 @@
       "cognitoUserPoolId": "authamplifyreminderapp"
     },
     "additionalAuthTypes": [
-      {
-        "mode": "API_KEY",
-        "expirationTime": 365,
-        "apiKeyExpirationDate": "2027-01-23T18:27:59.424Z",
-        "keyDescription": "test_later_remove_after_ui-component_databinding_done"
-      },
-      {
-        "mode": "AWS_IAM"
-      }
     ],
     "conflictResolution": {
       "defaultResolutionStrategy": {
