@@ -1,4 +1,4 @@
-type Reminder @model @auth(rules: [{allow: public}]) {
+type Reminder @model @auth(rules: [{allow: owner, ownerField: "userId", identityClaim: "sub"}]) {
   id: ID! @primaryKey
   userId: String! @index(name: "byUser", sortKeyFields: ["remindAt"])
   title: String!

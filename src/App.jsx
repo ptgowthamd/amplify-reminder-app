@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Alert, ThemeProvider } from "@aws-amplify/ui-react";
+import { getCurrentUser } from "aws-amplify/auth";
 import "./App.css";
 import {
   ReminderCreateForm,
@@ -12,6 +13,25 @@ function App() {
   const [updateId, setUpdateId] = useState("");
   const [notice, setNotice] = useState(null);
   const [view, setView] = useState("forms");
+  const [userSub, setUserSub] = useState("");
+
+  useEffect(() => {
+    let isMounted = true;
+    getCurrentUser()
+      .then((user) => {
+        if (isMounted) {
+          setUserSub(user.userId);
+        }
+      })
+      .catch(() => {
+        if (isMounted) {
+          setUserSub("");
+        }
+      });
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   return (
     <ThemeProvider theme={studioTheme}>
@@ -51,12 +71,21 @@ function App() {
               <ReminderCreateForm
                 clearOnSuccess
                 overrides={{
+                  userId: {
+                    labelHidden: true,
+                    type: "hidden",
+                    style: { display: "none" },
+                  },
                   stepFnExecutionArn: {
                     labelHidden: true,
                     type: "hidden",
                     style: { display: "none" },
                   },
                 }}
+                onSubmit={(fields) => ({
+                  ...fields,
+                  userId: userSub,
+                })}
                 onSuccess={() =>
                   setNotice({ type: "success", text: "Reminder created." })
                 }
@@ -82,12 +111,21 @@ function App() {
                 <ReminderUpdateForm
                   id={updateId}
                   overrides={{
+                    userId: {
+                      labelHidden: true,
+                      type: "hidden",
+                      style: { display: "none" },
+                    },
                     stepFnExecutionArn: {
                       labelHidden: true,
                       type: "hidden",
                       style: { display: "none" },
                     },
                   }}
+                  onSubmit={(fields) => ({
+                    ...fields,
+                    userId: userSub,
+                  })}
                   onSuccess={() =>
                     setNotice({ type: "success", text: "Reminder updated." })
                   }

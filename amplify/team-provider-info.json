@@ -14,6 +14,12 @@
     "categories": {
       "api": {
         "amplifyreminderapp": {}
+      },
+      "auth": {
+        "amplifyreminderapp": {}
+      },
+      "function": {
+        "amplifyreminderappPostConfirmation": {}
       }
     }
   }
