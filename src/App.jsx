@@ -1,6 +1,11 @@
-import { useEffect, useState } from "react";
-import { Alert, ThemeProvider } from "@aws-amplify/ui-react";
-import { getCurrentUser } from "aws-amplify/auth";
+import { useState } from "react";
+import {
+  Alert,
+  Authenticator,
+  CheckboxField,
+  ThemeProvider,
+  useAuthenticator,
+} from "@aws-amplify/ui-react";
 import "./App.css";
 import {
   ReminderCreateForm,
@@ -9,29 +14,27 @@ import {
   studioTheme,
 } from "./ui-components";
 
-function App() {
+function SignUpFormFields() {
+  const { validationErrors } = useAuthenticator();
+
+  return (
+    <>
+      <Authenticator.SignUp.FormFields />
+      <CheckboxField
+        errorMessage={validationErrors.acknowledgement}
+        hasError={!!validationErrors.acknowledgement}
+        name="acknowledgement"
+        value="yes"
+        label="I agree with the Terms & Conditions"
+      />
+    </>
+  );
+}
+
+function ReminderApp({ userSub, onSignOut }) {
   const [updateId, setUpdateId] = useState("");
   const [notice, setNotice] = useState(null);
   const [view, setView] = useState("forms");
-  const [userSub, setUserSub] = useState("");
-
-  useEffect(() => {
-    let isMounted = true;
-    getCurrentUser()
-      .then((user) => {
-        if (isMounted) {
-          setUserSub(user.userId);
-        }
-      })
-      .catch(() => {
-        if (isMounted) {
-          setUserSub("");
-        }
-      });
-    return () => {
-      isMounted = false;
-    };
-  }, []);
 
   return (
     <ThemeProvider theme={studioTheme}>
@@ -42,7 +45,12 @@ function App() {
           padding: 24,
         }}
       >
-        <h1>Reminders</h1>
+        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+          <h1 style={{ margin: 0, flex: 1 }}>Reminders</h1>
+          <button type="button" onClick={onSignOut}>
+            Sign out
+          </button>
+        </div>
 
         <div style={{ display: "flex", gap: 12, justifyContent: "center" }}>
           <button type="button" onClick={() => setView("forms")}>
@@ -165,4 +173,31 @@ function App() {
   );
 }
 
-export default App;
+export default function App() {
+  return (
+    <Authenticator
+      initialState="signUp"
+      components={{
+        SignUp: {
+          FormFields: SignUpFormFields,
+        },
+      }}
+      services={{
+        async validateCustomSignUp(formData) {
+          if (!formData.acknowledgement) {
+            return {
+              acknowledgement: "You must agree to the Terms & Conditions",
+            };
+          }
+        },
+      }}
+    >
+      {({ signOut, user }) => (
+        <ReminderApp
+          userSub={user?.userId ?? user?.attributes?.sub ?? ""}
+          onSignOut={signOut}
+        />
+      )}
+    </Authenticator>
+  );
+}
