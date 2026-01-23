@@ -66,5 +66,23 @@
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     }
+  },
+  "parameters": {
+    "AMPLIFY_function_amplifyreminderappPostConfirmation_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "amplifyreminderappPostConfirmation"
+        }
+      ]
+    },
+    "AMPLIFY_function_amplifyreminderappPostConfirmation_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "amplifyreminderappPostConfirmation"
+        }
+      ]
+    }
   }
 }

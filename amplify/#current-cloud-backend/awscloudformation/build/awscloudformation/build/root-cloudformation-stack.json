@@ -199,6 +199,49 @@
         }
       }
     },
+    "AuthTriggerCustomLambdaStack": {
+      "Type": "AWS::CloudFormation::Stack",
+      "Properties": {
+        "TemplateURL": "https://s3.amazonaws.com/amplify-amplifyreminderapp-dev-8ae81-deployment/amplify-cfn-templates/auth/auth-trigger-cloudformation-template.json",
+        "Parameters": {
+          "env": "dev",
+          "userpoolId": {
+            "Fn::GetAtt": [
+              "authamplifyreminderapp",
+              "Outputs.UserPoolId"
+            ]
+          },
+          "userpoolArn": {
+            "Fn::GetAtt": [
+              "authamplifyreminderapp",
+              "Outputs.UserPoolArn"
+            ]
+          },
+          "functionamplifyreminderappPostConfirmationLambdaExecutionRole": {
+            "Fn::GetAtt": [
+              "functionamplifyreminderappPostConfirmation",
+              "Outputs.LambdaExecutionRoleArn"
+            ]
+          },
+          "functionamplifyreminderappPostConfirmationArn": {
+            "Fn::GetAtt": [
+              "functionamplifyreminderappPostConfirmation",
+              "Outputs.Arn"
+            ]
+          },
+          "functionamplifyreminderappPostConfirmationName": {
+            "Fn::GetAtt": [
+              "functionamplifyreminderappPostConfirmation",
+              "Outputs.Name"
+            ]
+          }
+        }
+      },
+      "DependsOn": [
+        "authamplifyreminderapp",
+        "functionamplifyreminderappPostConfirmation"
+      ]
+    },
     "apiamplifyreminderapp": {
       "Type": "AWS::CloudFormation::Stack",
       "Properties": {
@@ -214,7 +257,82 @@
             "Ref": "UnauthRoleName"
           },
           "S3DeploymentBucket": "amplify-amplifyreminderapp-dev-8ae81-deployment",
-          "S3DeploymentRootKey": "amplify-appsync-files/73dcf1fde4898695db4b7c2e6156226a3d623ecf",
+          "S3DeploymentRootKey": "amplify-appsync-files/7d3b36802f44f491ae9084dbc130e6a12a271cb5",
+          "env": "dev"
+        }
+      }
+    },
+    "authamplifyreminderapp": {
+      "Type": "AWS::CloudFormation::Stack",
+      "Properties": {
+        "TemplateURL": "https://s3.amazonaws.com/amplify-amplifyreminderapp-dev-8ae81-deployment/amplify-cfn-templates/auth/amplifyreminderapp-cloudformation-template.json",
+        "Parameters": {
+          "resourceNameTruncated": "amplif2dc29b0b",
+          "userPoolName": "amplifyreminderapp_userpool",
+          "autoVerifiedAttributes": "email",
+          "mfaConfiguration": "OFF",
+          "mfaTypes": "SMS Text Message",
+          "smsAuthenticationMessage": "Your authentication code is {####}",
+          "smsVerificationMessage": "Your verification code is {####}",
+          "emailVerificationSubject": "Your verification code",
+          "emailVerificationMessage": "Your verification code is {####}",
+          "defaultPasswordPolicy": false,
+          "passwordPolicyMinLength": 8,
+          "passwordPolicyCharacters": "",
+          "requiredAttributes": "email",
+          "aliasAttributes": "",
+          "userpoolClientGenerateSecret": false,
+          "userpoolClientRefreshTokenValidity": 30,
+          "userpoolClientWriteAttributes": "email",
+          "userpoolClientReadAttributes": "email",
+          "userpoolClientLambdaRole": "amplif2dc29b0b_userpoolclient_lambda_role",
+          "userpoolClientSetAttributes": false,
+          "sharedId": "2dc29b0b",
+          "resourceName": "amplifyreminderapp",
+          "authSelections": "userPoolOnly",
+          "useDefault": "manual",
+          "usernameAttributes": "email",
+          "userPoolGroups": false,
+          "adminQueries": false,
+          "triggers": "{\"PostConfirmation\":[\"custom\"]}",
+          "hostedUI": false,
+          "userPoolGroupList": "",
+          "serviceName": "Cognito",
+          "usernameCaseSensitive": false,
+          "useEnabledMfas": true,
+          "authRoleArn": {
+            "Fn::GetAtt": [
+              "AuthRole",
+              "Arn"
+            ]
+          },
+          "unauthRoleArn": {
+            "Fn::GetAtt": [
+              "UnauthRole",
+              "Arn"
+            ]
+          },
+          "breakCircularDependency": true,
+          "dependsOn": "[object Object]",
+          "authProviders": "",
+          "parentStack": {
+            "Ref": "AWS::StackId"
+          },
+          "authTriggerConnections": "{\"triggerType\":\"PostConfirmation\",\"lambdaFunctionName\":\"amplifyreminderappPostConfirmation\"}",
+          "permissions": "",
+          "env": "dev"
+        }
+      }
+    },
+    "functionamplifyreminderappPostConfirmation": {
+      "Type": "AWS::CloudFormation::Stack",
+      "Properties": {
+        "TemplateURL": "https://s3.amazonaws.com/amplify-amplifyreminderapp-dev-8ae81-deployment/amplify-cfn-templates/function/amplifyreminderappPostConfirmation-cloudformation-template.json",
+        "Parameters": {
+          "modules": "custom",
+          "resourceName": "amplifyreminderappPostConfirmation",
+          "deploymentBucketName": "amplify-amplifyreminderapp-dev-8ae81-deployment",
+          "s3Key": "amplify-builds/amplifyreminderappPostConfirmation-6d65523378696d473647-build.zip",
           "env": "dev"
         }
       }

@@ -9,7 +9,8 @@
       "UnauthRoleName": "amplify-amplifyreminderapp-dev-8ae81-unauthRole",
       "StackName": "amplify-amplifyreminderapp-dev-8ae81",
       "StackId": "arn:aws:cloudformation:ap-south-1:112097210422:stack/amplify-amplifyreminderapp-dev-8ae81/8ced7660-f47c-11f0-8bdb-0a1ae843ed95",
-      "AmplifyAppId": "dmiq26r8zc2c1"
+      "AmplifyAppId": "dmiq26r8zc2c1",
+      "AuthTriggerTemplateURL": "https://s3.amazonaws.com/amplify-amplifyreminderapp-dev-8ae81-deployment/amplify-cfn-templates/auth/auth-trigger-cloudformation-template.json"
     }
   },
   "api": {
@@ -36,58 +37,91 @@
       },
       "providerPlugin": "awscloudformation",
       "service": "AppSync",
-      "lastPushTimeStamp": "2026-01-22T09:34:12.843Z",
+      "lastPushTimeStamp": "2026-01-23T16:18:34.921Z",
       "providerMetadata": {
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-amplifyreminderapp-dev-8ae81-deployment/amplify-cfn-templates/api/cloudformation-template.json",
         "logicalId": "apiamplifyreminderapp"
       },
-      "lastPushDirHash": "b8RIKxlyJWQ08wc+eVZdbMbZUsU="
+      "lastPushDirHash": "LyR11iQ3qBYlbFH9/LjrU/iM/Os="
     }
   },
   "auth": {
     "amplifyreminderapp": {
-      "service": "Cognito",
-      "providerPlugin": "awscloudformation",
+      "customAuth": false,
       "dependsOn": [
         {
-          "category": "function",
-          "resourceName": "amplifyreminderappPostConfirmation",
-          "triggerProvider": "Cognito",
           "attributes": [
             "Arn",
             "Name"
-          ]
+          ],
+          "category": "function",
+          "resourceName": "amplifyreminderappPostConfirmation",
+          "triggerProvider": "Cognito"
         }
       ],
-      "customAuth": false,
       "frontendAuthConfig": {
-        "socialProviders": [],
-        "usernameAttributes": [
-          "EMAIL"
-        ],
-        "signupAttributes": [
-          "EMAIL"
+        "mfaConfiguration": "OFF",
+        "mfaTypes": [
+          "SMS"
         ],
         "passwordProtectionSettings": {
           "passwordPolicyMinLength": 8,
           "passwordPolicyCharacters": []
         },
-        "mfaConfiguration": "OFF",
-        "mfaTypes": [
-          "SMS"
+        "signupAttributes": [
+          "EMAIL"
+        ],
+        "socialProviders": [],
+        "usernameAttributes": [
+          "EMAIL"
         ],
         "verificationMechanisms": [
           "EMAIL"
         ]
       },
-      "lastPushTimeStamp": "2026-01-23T15:47:12.786Z"
+      "providerPlugin": "awscloudformation",
+      "service": "Cognito",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-amplifyreminderapp-dev-8ae81-deployment/amplify-cfn-templates/auth/amplifyreminderapp-cloudformation-template.json",
+        "logicalId": "authamplifyreminderapp"
+      },
+      "lastPushTimeStamp": "2026-01-23T16:18:34.923Z",
+      "output": {
+        "UserPoolId": "ap-south-1_qx0kApvMu",
+        "AppClientIDWeb": "29bkq37auv9dn4c0bc06q04rqo",
+        "AppClientID": "6o8ihlu7krqlq312cpvdgu68vc",
+        "UserPoolArn": "arn:aws:cognito-idp:ap-south-1:112097210422:userpool/ap-south-1_qx0kApvMu",
+        "UserPoolName": "amplifyreminderapp_userpool"
+      },
+      "lastPushDirHash": "LlE19yKeDAZQWnLBzczGqA0Jas4="
     }
   },
   "function": {
     "amplifyreminderappPostConfirmation": {
       "build": true,
       "providerPlugin": "awscloudformation",
-      "service": "Lambda"
+      "service": "Lambda",
+      "lastBuildTimeStamp": "2026-01-23T16:13:27.832Z",
+      "lastBuildType": "PROD",
+      "lastPackageTimeStamp": "2026-01-23T16:13:28.177Z",
+      "distZipFilename": "amplifyreminderappPostConfirmation-6d65523378696d473647-build.zip",
+      "s3Bucket": {
+        "deploymentBucketName": "amplify-amplifyreminderapp-dev-8ae81-deployment",
+        "s3Key": "amplify-builds/amplifyreminderappPostConfirmation-6d65523378696d473647-build.zip"
+      },
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-amplifyreminderapp-dev-8ae81-deployment/amplify-cfn-templates/function/amplifyreminderappPostConfirmation-cloudformation-template.json",
+        "logicalId": "functionamplifyreminderappPostConfirmation"
+      },
+      "lastPushTimeStamp": "2026-01-23T16:18:34.924Z",
+      "output": {
+        "LambdaExecutionRoleArn": "arn:aws:iam::112097210422:role/amplifyreminderappPostConfirmation-dev",
+        "Region": "ap-south-1",
+        "Arn": "arn:aws:lambda:ap-south-1:112097210422:function:amplifyreminderappPostConfirmation-dev",
+        "Name": "amplifyreminderappPostConfirmation-dev",
+        "LambdaExecutionRole": "amplifyreminderappPostConfirmation-dev"
+      },
+      "lastPushDirHash": "7bQ04lMT+JBsHbzCUupr9Y0RBaQ="
     }
   }
 }

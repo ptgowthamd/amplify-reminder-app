@@ -9,7 +9,8 @@
       "UnauthRoleName": "amplify-amplifyreminderapp-dev-8ae81-unauthRole",
       "StackName": "amplify-amplifyreminderapp-dev-8ae81",
       "StackId": "arn:aws:cloudformation:ap-south-1:112097210422:stack/amplify-amplifyreminderapp-dev-8ae81/8ced7660-f47c-11f0-8bdb-0a1ae843ed95",
-      "AmplifyAppId": "dmiq26r8zc2c1"
+      "AmplifyAppId": "dmiq26r8zc2c1",
+      "AuthTriggerTemplateURL": "https://s3.amazonaws.com/amplify-amplifyreminderapp-dev-8ae81-deployment/amplify-cfn-templates/auth/auth-trigger-cloudformation-template.json"
     },
     "categories": {
       "api": {
@@ -19,7 +20,10 @@
         "amplifyreminderapp": {}
       },
       "function": {
-        "amplifyreminderappPostConfirmation": {}
+        "amplifyreminderappPostConfirmation": {
+          "deploymentBucketName": "amplify-amplifyreminderapp-dev-8ae81-deployment",
+          "s3Key": "amplify-builds/amplifyreminderappPostConfirmation-6d65523378696d473647-build.zip"
+        }
       }
     }
   }
