@@ -81,6 +81,7 @@ After make any changes in Figma designs, to affect those changes into react comp
 To disable "conflict detection" on the API : amplify update api -> conflict detection off and "amplify push".
 
 29. Auth mismatch: if the API is Cognito‑only, Studio can’t introspect models. Add AWS_IAM or API_KEY as an additional auth mode via amplify update api, then refresh Studio.
+In my case, added AWS_IAM as additional auth-type. API_KEY additional auth-type also required.
 
 
 # React + Vite
