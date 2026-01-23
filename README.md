@@ -75,6 +75,8 @@ After make any changes in Figma designs, to affect those changes into react comp
 25. Add Coginito userpools for Auth and related steps in separate doc.
 26. Update graphql api to change auth type to cognito-userpool if it's using API-key as default auth type.
 
+27. Go to Amplify Studio Settings, click on login url for required environment and login with AWS SSO.
+
 
 
 

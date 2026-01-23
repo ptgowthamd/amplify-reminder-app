@@ -6,7 +6,7 @@ import {
   ThemeProvider,
   useAuthenticator,
 } from "@aws-amplify/ui-react";
-import { DataStore } from "aws-amplify/datastore";
+import { generateClient } from "aws-amplify/api";
 import "./App.css";
 import {
   ReminderCreateForm,
@@ -14,7 +14,22 @@ import {
   SocialPostCollection,
   studioTheme,
 } from "./ui-components";
-import { Reminder } from "./models";
+
+const client = generateClient();
+const listRemindersQuery = /* GraphQL */ `
+  query ListReminders($filter: ModelReminderFilterInput, $limit: Int) {
+    listReminders(filter: $filter, limit: $limit) {
+      items {
+        id
+        userId
+        title
+        description
+        remindAt
+        stepFnExecutionArn
+      }
+    }
+  }
+`;
 
 function SignUpFormFields() {
   const { validationErrors } = useAuthenticator();
@@ -38,20 +53,43 @@ function ReminderApp({ userSub, onSignOut }) {
   const [notice, setNotice] = useState(null);
   const [view, setView] = useState("forms");
   const [userReminders, setUserReminders] = useState([]);
+  const [refreshKey, setRefreshKey] = useState(0);
 
   useEffect(() => {
-    if (!userSub) {
+    if (!userSub || view !== "list") {
       setUserReminders([]);
-      return undefined;
+      return;
     }
-    const subscription = DataStore.observeQuery(Reminder, (r) =>
-      r.userId.eq(userSub)
-    ).subscribe(({ items }) => {
-      setUserReminders(items);
-    });
+    let isActive = true;
 
-    return () => subscription.unsubscribe();
-  }, [userSub]);
+    const fetchReminders = async () => {
+      try {
+        const result = await client.graphql({
+          query: listRemindersQuery,
+          variables: {
+            filter: { userId: { eq: userSub } },
+            limit: 100,
+          },
+        });
+        if (isActive) {
+          setUserReminders(result?.data?.listReminders?.items ?? []);
+        }
+      } catch (error) {
+        if (isActive) {
+          setNotice({
+            type: "error",
+            text: "Failed to load reminders.",
+          });
+        }
+      }
+    };
+
+    fetchReminders();
+
+    return () => {
+      isActive = false;
+    };
+  }, [userSub, view, refreshKey]);
 
   return (
     <ThemeProvider theme={studioTheme}>
@@ -119,9 +157,10 @@ function ReminderApp({ userSub, onSignOut }) {
                   userId: (value, validationResponse) =>
                     userSub ? { hasError: false } : validationResponse,
                 }}
-                onSuccess={() =>
-                  setNotice({ type: "success", text: "Reminder created." })
-                }
+                onSuccess={() => {
+                  setNotice({ type: "success", text: "Reminder created." });
+                  setRefreshKey((value) => value + 1);
+                }}
                 onError={(_, errorMessage) =>
                   setNotice({
                     type: "error",
@@ -167,9 +206,13 @@ function ReminderApp({ userSub, onSignOut }) {
                     userId: (value, validationResponse) =>
                       userSub ? { hasError: false } : validationResponse,
                   }}
-                  onSuccess={() =>
-                    setNotice({ type: "success", text: "Reminder updated." })
-                  }
+                  onSuccess={() => {
+                    setNotice({
+                      type: "success",
+                      text: "Reminder updated.",
+                    });
+                    setRefreshKey((value) => value + 1);
+                  }}
                   onError={(_, errorMessage) =>
                     setNotice({
                       type: "error",
