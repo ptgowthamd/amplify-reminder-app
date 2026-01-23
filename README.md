@@ -77,7 +77,10 @@ After make any changes in Figma designs, to affect those changes into react comp
 
 27. Go to Amplify Studio Settings, click on login url for required environment and login with AWS SSO.
 
+28. By default conflict detection/DataStore sync is enabled. If we don't want we can disable for GraphQL API. And make sure DataStore is not used anywhere.
+To disable "conflict detection" on the API : amplify update api -> conflict detection off and "amplify push".
 
+29. Auth mismatch: if the API is Cognito‑only, Studio can’t introspect models. Add AWS_IAM or API_KEY as an additional auth mode via amplify update api, then refresh Studio.
 
 
 # React + Vite
