@@ -10,7 +10,7 @@ import { getOverrideProps } from "./utils";
 import { Flex, Icon, Image, Text, View } from "@aws-amplify/ui-react";
 import MyIcon from "./MyIcon";
 export default function Ampligram(props) {
-  const { overrides, ...rest } = props;
+  const { reminder, overrides, ...rest } = props;
   return (
     <Flex
       gap="8px"
@@ -85,7 +85,7 @@ export default function Ampligram(props) {
             position="relative"
             padding="0px 0px 0px 0px"
             whiteSpace="pre-wrap"
-            children="Rene Brandel"
+            children={reminder?.description}
             {...getOverrideProps(overrides, "Rene Brandel")}
           ></Text>
         </Flex>

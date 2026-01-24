@@ -8,12 +8,6 @@
             "Type": "String",
             "Default": "AppSyncSimpleTransform"
         },
-        "authRoleName": {
-            "Type": "String"
-        },
-        "unauthRoleName": {
-            "Type": "String"
-        },
         "AuthCognitoUserPoolId": {
             "Type": "String"
         },
@@ -67,11 +61,6 @@
         "GraphQLAPI": {
             "Type": "AWS::AppSync::GraphQLApi",
             "Properties": {
-                "AdditionalAuthenticationProviders": [
-                    {
-                        "AuthenticationType": "AWS_IAM"
-                    }
-                ],
                 "AuthenticationType": "AMAZON_COGNITO_USER_POOLS",
                 "Name": {
                     "Fn::Join": [
@@ -347,12 +336,6 @@
                     },
                     "referencetotransformerrootstackS3DeploymentRootKeyA71EA735Ref": {
                         "Ref": "S3DeploymentRootKey"
-                    },
-                    "referencetotransformerrootstackauthRoleNameFB872D50Ref": {
-                        "Ref": "authRoleName"
-                    },
-                    "referencetotransformerrootstackunauthRoleName49F3C1FERef": {
-                        "Ref": "unauthRoleName"
                     }
                 },
                 "TemplateURL": {

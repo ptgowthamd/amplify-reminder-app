@@ -8,9 +8,6 @@
       "cognitoUserPoolId": "authamplifyreminderapp"
     },
     "additionalAuthTypes": [
-      {
-        "mode": "AWS_IAM"
-      }
     ],
     "conflictResolution": {
       "defaultResolutionStrategy": {

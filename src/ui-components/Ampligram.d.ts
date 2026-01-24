@@ -5,6 +5,7 @@
  **************************************************************************/
 
 import * as React from "react";
+import { Reminder } from "../models";
 import { FlexProps, IconProps, ImageProps, TextProps, ViewProps } from "@aws-amplify/ui-react";
 import { MyIconProps } from "./MyIcon";
 export declare type EscapeHatchProps = {
@@ -43,6 +44,8 @@ export declare type AmpligramOverridesProps = {
     Timestamp?: PrimitiveOverrideProps<TextProps>;
 } & EscapeHatchProps;
 export declare type AmpligramProps = React.PropsWithChildren<Partial<FlexProps> & {
+    reminder?: Reminder;
+} & {
     overrides?: AmpligramOverridesProps | undefined | null;
 }>;
 export default function Ampligram(props: AmpligramProps): React.ReactElement;

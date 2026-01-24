@@ -23,7 +23,8 @@
         "amplifyreminderappPostConfirmation": {
           "deploymentBucketName": "amplify-amplifyreminderapp-dev-8ae81-deployment",
           "s3Key": "amplify-builds/amplifyreminderappPostConfirmation-6d65523378696d473647-build.zip"
-        }
+        },
+        "sendReminderEvent2StepFuntion": {}
       }
     }
   }

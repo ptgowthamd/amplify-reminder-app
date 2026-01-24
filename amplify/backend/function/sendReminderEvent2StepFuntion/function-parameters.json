@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "storage": {
+      "Reminder:@model(appsync)": [
+        "read",
+        "update"
+      ]
+    }
+  },
+  "lambdaLayers": []
+}
