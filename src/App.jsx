@@ -55,6 +55,23 @@ function ReminderApp({ userSub, onSignOut }) {
   const [userReminders, setUserReminders] = useState([]);
   const [refreshKey, setRefreshKey] = useState(0);
 
+  const formatLocalDateTime = (value) => {
+    if (!value) {
+      return "";
+    }
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) {
+      return value;
+    }
+    return new Intl.DateTimeFormat(undefined, {
+      year: "numeric",
+      month: "short",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+    }).format(date);
+  };
+
   useEffect(() => {
     if (!userSub || view !== "list") {
       setUserReminders([]);
@@ -233,12 +250,15 @@ function ReminderApp({ userSub, onSignOut }) {
               templateColumns="repeat(auto-fit, minmax(260px, 1fr))"
               gap="12px"
               alignItems="stretch"
-              overrideItems={() => ({
+              overrideItems={({ item }) => ({
                 overrides: {
                   SocialPost: {
                     width: "100%",
                     height: "auto",
                     padding: "16px",
+                  },
+                  "2nd December 2022": {
+                    children: formatLocalDateTime(item?.remindAt),
                   },
                 },
               })}
