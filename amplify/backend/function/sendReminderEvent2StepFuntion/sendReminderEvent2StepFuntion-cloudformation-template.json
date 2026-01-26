@@ -15,11 +15,19 @@
         },
         "s3Key": {
             "Type": "String"
-        }
-        ,
-    
-    
-    
+        },
+        "cognitoUserPoolId": {
+            "Type": "String",
+            "Default": ""
+        },
+        "sesFromEmail": {
+            "Type": "String",
+            "Default": ""
+        },
+        "timeZone": {
+            "Type": "String",
+            "Default": ""
+        },
         "apiamplifyreminderappGraphQLAPIIdOutput": {
             "Type": "String",
             "Default": "apiamplifyreminderappGraphQLAPIIdOutput"
@@ -76,7 +84,36 @@
                 ]
             },
             "Environment": {
-                "Variables" : {"ENV":{"Ref":"env"},"REGION":{"Ref":"AWS::Region"},"API_AMPLIFYREMINDERAPP_REMINDERTABLE_NAME":{"Fn::ImportValue":{"Fn::Sub":"${apiamplifyreminderappGraphQLAPIIdOutput}:GetAtt:ReminderTable:Name"}},"API_AMPLIFYREMINDERAPP_REMINDERTABLE_ARN":{"Fn::Join":["",["arn:aws:dynamodb:",{"Ref":"AWS::Region"},":",{"Ref":"AWS::AccountId"},":table/",{"Fn::ImportValue":{"Fn::Sub":"${apiamplifyreminderappGraphQLAPIIdOutput}:GetAtt:ReminderTable:Name"}}]]},"API_AMPLIFYREMINDERAPP_GRAPHQLAPIIDOUTPUT":{"Ref":"apiamplifyreminderappGraphQLAPIIdOutput"}}
+                "Variables": {
+                    "ENV": { "Ref": "env" },
+                    "REGION": { "Ref": "AWS::Region" },
+                    "COGNITO_USER_POOL_ID": { "Ref": "cognitoUserPoolId" },
+                    "SES_FROM_EMAIL": { "Ref": "sesFromEmail" },
+                    "TIMEZONE": { "Ref": "timeZone" },
+                    "API_AMPLIFYREMINDERAPP_REMINDERTABLE_NAME": {
+                        "Fn::ImportValue": {
+                            "Fn::Sub": "${apiamplifyreminderappGraphQLAPIIdOutput}:GetAtt:ReminderTable:Name"
+                        }
+                    },
+                    "API_AMPLIFYREMINDERAPP_REMINDERTABLE_ARN": {
+                        "Fn::Join": [
+                            "",
+                            [
+                                "arn:aws:dynamodb:",
+                                { "Ref": "AWS::Region" },
+                                ":",
+                                { "Ref": "AWS::AccountId" },
+                                ":table/",
+                                {
+                                    "Fn::ImportValue": {
+                                        "Fn::Sub": "${apiamplifyreminderappGraphQLAPIIdOutput}:GetAtt:ReminderTable:Name"
+                                    }
+                                }
+                            ]
+                        ]
+                    },
+                    "API_AMPLIFYREMINDERAPP_GRAPHQLAPIIDOUTPUT": { "Ref": "apiamplifyreminderappGraphQLAPIIdOutput" }
+                }
             },
             "Role": { "Fn::GetAtt": ["LambdaExecutionRole", "Arn"] },
             "Runtime": "nodejs22.x",
