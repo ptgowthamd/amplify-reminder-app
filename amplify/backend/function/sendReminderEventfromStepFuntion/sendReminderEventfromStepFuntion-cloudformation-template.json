@@ -127,13 +127,13 @@
                 "RoleName": {
                     "Fn::If": [
                         "ShouldNotCreateEnvResources",
-                        "amplifyreminderappLambdaRolec96d6656",
+                        "amplifyreminderappLambdaRoleSendReminderEventfromStepFuntion",
                         {
 
                             "Fn::Join": [
                                 "",
                                 [
-                                    "amplifyreminderappLambdaRolec96d6656",
+                                    "amplifyreminderappLambdaRoleSendReminderEventfromStepFuntion",
                                     "-",
                                     {
                                         "Ref": "env"
