@@ -31,6 +31,36 @@ const listRemindersQuery = /* GraphQL */ `
   }
 `;
 
+const validateRemindAt = (value, validationResponse) => {
+  if (validationResponse.hasError || !value) {
+    return validationResponse;
+  }
+  const remindDate = new Date(value);
+  if (Number.isNaN(remindDate.getTime())) {
+    return {
+      hasError: true,
+      errorMessage: "Enter a valid reminder date and time.",
+    };
+  }
+  const now = new Date();
+  now.setSeconds(0, 0);
+  if (remindDate.getTime() < now.getTime()) {
+    return {
+      hasError: true,
+      errorMessage: "Remind at cannot be in the past.",
+    };
+  }
+  const oneYearFromNow = new Date(now);
+  oneYearFromNow.setFullYear(oneYearFromNow.getFullYear() + 1);
+  if (remindDate.getTime() > oneYearFromNow.getTime()) {
+    return {
+      hasError: true,
+      errorMessage: "Remind at must be within 1 year from now.",
+    };
+  }
+  return validationResponse;
+};
+
 function SignUpFormFields() {
   const { validationErrors } = useAuthenticator();
 
@@ -173,6 +203,7 @@ function ReminderApp({ userSub, onSignOut }) {
                 onValidate={{
                   userId: (value, validationResponse) =>
                     userSub ? { hasError: false } : validationResponse,
+                  remindAt: validateRemindAt,
                 }}
                 onSuccess={() => {
                   setNotice({ type: "success", text: "Reminder created." });
@@ -222,6 +253,7 @@ function ReminderApp({ userSub, onSignOut }) {
                   onValidate={{
                     userId: (value, validationResponse) =>
                       userSub ? { hasError: false } : validationResponse,
+                    remindAt: validateRemindAt,
                   }}
                   onSuccess={() => {
                     setNotice({
