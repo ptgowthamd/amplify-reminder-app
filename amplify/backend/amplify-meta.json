@@ -137,7 +137,7 @@
       "distZipFilename": "amplifyreminderappPostConfirmation-6d65523378696d473647-build.zip",
       "lastPushDirHash": "7bQ04lMT+JBsHbzCUupr9Y0RBaQ="
     },
-    "sendReminderEvent2StepFuntion": {
+    "sendReminderEventfromStepFuntion": {
       "build": true,
       "providerPlugin": "awscloudformation",
       "service": "Lambda",

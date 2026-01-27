@@ -103,7 +103,7 @@
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
-    "sendReminderEvent2StepFuntion": {
+    "sendReminderEventfromStepFuntion": {
       "build": true,
       "dependsOn": [
         {
