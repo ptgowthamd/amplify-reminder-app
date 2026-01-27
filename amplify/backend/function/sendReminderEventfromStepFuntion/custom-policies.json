@@ -13,7 +13,7 @@
         "logs:PutLogEvents"
       ],
       "Resource": [
-        "arn:aws:logs:ap-south-1:112097210422:log-group:/aws/lambda/invokeReminder:*"
+        "arn:aws:logs:ap-south-1:112097210422:log-group:/aws/lambda/sendReminderEventfromStepFuntion*:log-stream:*"
       ]
     },
     {

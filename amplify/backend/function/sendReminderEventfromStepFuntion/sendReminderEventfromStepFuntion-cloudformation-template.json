@@ -173,7 +173,9 @@
                         {
                             "Effect": "Allow",
                             "Action": "logs:CreateLogGroup",
-                            "Resource": "arn:aws:logs:ap-south-1:112097210422:*"
+                            "Resource": {
+                                "Fn::Sub": "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:*"
+                            }
                         },
                         {
                             "Effect": "Allow",
@@ -181,9 +183,9 @@
                                 "logs:CreateLogStream",
                                 "logs:PutLogEvents"
                             ],
-                            "Resource": [
-                                "arn:aws:logs:ap-south-1:112097210422:log-group:/aws/lambda/invokeReminder:*"
-                            ]
+                            "Resource": {
+                                "Fn::Sub": "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/${LambdaFunction}:log-stream:*"
+                            }
                         },
                         {
                             "Sid": "CognitoReadUser",
