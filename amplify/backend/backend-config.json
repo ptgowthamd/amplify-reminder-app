@@ -75,6 +75,21 @@
       "service": "Cognito"
     }
   },
+  "custom": {
+    "RemindersStatemachine": {
+      "service": "CloudFormation",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [
+        {
+          "attributes": [
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "sendReminderEventfromStepFuntion"
+        }
+      ]
+    }
+  },
   "function": {
     "amplifyreminderappPostConfirmation": {
       "build": true,

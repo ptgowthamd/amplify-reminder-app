@@ -1,0 +1,80 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "Custom Step Functions state machine for reminders",
+  "Parameters": {
+    "env": {
+      "Type": "String",
+      "Default": "NONE"
+    },
+    "functionsendReminderEventfromStepFuntionArn": {
+      "Type": "String"
+    }
+  },
+  "Resources": {
+    "RemindersStatemachineRole": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "states.amazonaws.com"
+              },
+              "Action": "sts:AssumeRole"
+            }
+          ]
+        },
+        "Policies": [
+          {
+            "PolicyName": "invoke-reminder-lambda",
+            "PolicyDocument": {
+              "Version": "2012-10-17",
+              "Statement": [
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "lambda:InvokeFunction"
+                  ],
+                  "Resource": {
+                    "Ref": "functionsendReminderEventfromStepFuntionArn"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "RemindersStatemachine": {
+      "Type": "AWS::StepFunctions::StateMachine",
+      "Properties": {
+        "StateMachineName": "RemindersStatemachine",
+        "RoleArn": {
+          "Fn::GetAtt": [
+            "RemindersStatemachineRole",
+            "Arn"
+          ]
+        },
+        "DefinitionString": {
+          "Fn::Sub": [
+            "{\"Comment\":\"Reminder wait then notify\",\"StartAt\":\"WaitUntilReminder\",\"States\":{\"WaitUntilReminder\":{\"Type\":\"Wait\",\"TimestampPath\":\"$.reminderAt\",\"Next\":\"InvokeReminderLambda\"},\"InvokeReminderLambda\":{\"Type\":\"Task\",\"Resource\":\"arn:aws:states:::lambda:invoke\",\"Parameters\":{\"FunctionName\":\"${SendReminderLambdaArn}\",\"Payload.$\":\"$\"},\"End\":true}}}",
+            {
+              "SendReminderLambdaArn": {
+                "Ref": "functionsendReminderEventfromStepFuntionArn"
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "Outputs": {
+    "StateMachineArn": {
+      "Value": {
+        "Ref": "RemindersStatemachine"
+      }
+    }
+  }
+}
