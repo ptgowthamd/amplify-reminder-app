@@ -83,7 +83,15 @@
 							"Ref": "AWS::Region"
 						},
 						"STATE_MACHINE_ARN": {
-							"Ref": "stateMachineArn"
+							"Fn::If": [
+								"ShouldNotCreateEnvResources",
+								{
+									"Fn::Sub": "arn:aws:states:${AWS::Region}:${AWS::AccountId}:stateMachine:RemindersStatemachine"
+								},
+								{
+									"Fn::Sub": "arn:aws:states:${AWS::Region}:${AWS::AccountId}:stateMachine:RemindersStatemachine-${env}"
+								}
+							]
 						},
 						"API_AMPLIFYREMINDERAPP_REMINDERTABLE_NAME": {
 							"Fn::ImportValue": {
@@ -270,10 +278,27 @@
                                 "states:StartExecution",
                                 "states:StopExecution"
                             ],
-                            "Resource": [
-                                "arn:aws:states:ap-south-1:112097210422:stateMachine:ReminderStateMachine",
-                                "arn:aws:states:ap-south-1:112097210422:execution:ReminderStateMachine:*"
-                            ]
+                            "Resource": {
+                                "Fn::If": [
+                                    "ShouldNotCreateEnvResources",
+                                    [
+                                        {
+                                            "Fn::Sub": "arn:aws:states:${AWS::Region}:${AWS::AccountId}:stateMachine:RemindersStatemachine"
+                                        },
+                                        {
+                                            "Fn::Sub": "arn:aws:states:${AWS::Region}:${AWS::AccountId}:execution:RemindersStatemachine:*"
+                                        }
+                                    ],
+                                    [
+                                        {
+                                            "Fn::Sub": "arn:aws:states:${AWS::Region}:${AWS::AccountId}:stateMachine:RemindersStatemachine-${env}"
+                                        },
+                                        {
+                                            "Fn::Sub": "arn:aws:states:${AWS::Region}:${AWS::AccountId}:execution:RemindersStatemachine-${env}:*"
+                                        }
+                                    ]
+                                ]
+                            }
                         }
                     ]
                 }

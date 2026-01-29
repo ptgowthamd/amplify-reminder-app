@@ -48,8 +48,8 @@
         "states:StopExecution"
       ],
       "Resource": [
-        "arn:aws:states:ap-south-1:112097210422:stateMachine:ReminderStateMachine",
-        "arn:aws:states:ap-south-1:112097210422:execution:ReminderStateMachine:*"
+        "arn:aws:states:ap-south-1:112097210422:stateMachine:RemindersStatemachine-dev",
+        "arn:aws:states:ap-south-1:112097210422:execution:RemindersStatemachine-dev:*"
       ]
     }
   ]

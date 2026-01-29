@@ -13,6 +13,16 @@
       "Type": "String"
     }
   },
+  "Conditions": {
+    "ShouldNotCreateEnvResources": {
+      "Fn::Equals": [
+        {
+          "Ref": "env"
+        },
+        "NONE"
+      ]
+    }
+  },
   "Resources": {
     "RemindersStatemachineRole": {
       "Type": "AWS::IAM::Role",
@@ -53,7 +63,24 @@
     "RemindersStatemachine": {
       "Type": "AWS::StepFunctions::StateMachine",
       "Properties": {
-        "StateMachineName": "RemindersStatemachine",
+        "StateMachineName": {
+          "Fn::If": [
+            "ShouldNotCreateEnvResources",
+            "RemindersStatemachine",
+            {
+              "Fn::Join": [
+                "",
+                [
+                  "RemindersStatemachine",
+                  "-",
+                  {
+                    "Ref": "env"
+                  }
+                ]
+              ]
+            }
+          ]
+        },
         "RoleArn": {
           "Fn::GetAtt": [
             "RemindersStatemachineRole",
