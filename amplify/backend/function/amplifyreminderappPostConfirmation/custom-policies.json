@@ -7,7 +7,9 @@
         "logs:CreateLogStream",
         "logs:PutLogEvents"
       ],
-      "Resource": "arn:aws:logs:ap-south-1:112097210422:log-group:/aws/lambda/amplifyreminderappPostConfirmation-dev:log-stream:*",
+      "Resource": {
+        "Fn::Sub": "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/${LambdaFunction}:log-stream:*"
+      },
       "Effect": "Allow"
     },
     {
@@ -17,7 +19,9 @@
         "ses:CreateEmailIdentity",
         "ses:GetEmailIdentity"
       ],
-      "Resource": "arn:aws:ses:ap-south-1:112097210422:identity/*"
+      "Resource": {
+        "Fn::Sub": "arn:aws:ses:${AWS::Region}:${AWS::AccountId}:identity/*"
+      }
     }
   ]
 }
