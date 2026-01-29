@@ -1,0 +1,56 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": [
+        "dynamodb:Get*",
+        "dynamodb:BatchGetItem",
+        "dynamodb:List*",
+        "dynamodb:Describe*",
+        "dynamodb:Scan",
+        "dynamodb:Query",
+        "dynamodb:PartiQLSelect",
+        "dynamodb:Update*",
+        "dynamodb:RestoreTable*",
+        "dynamodb:PartiQLUpdate"
+      ],
+      "Resource": [
+        "arn:aws:dynamodb:ap-south-1:112097210422:table/Reminder-evyj3ez3bng5njm2syensqx5qa-dev",
+        "arn:aws:dynamodb:ap-south-1:112097210422:table/Reminder-evyj3ez3bng5njm2syensqx5qa-dev/index/*"
+      ],
+      "Effect": "Allow"
+    },
+    {
+      "Sid": "DynamoDBStreamAccess",
+      "Effect": "Allow",
+      "Action": [
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator",
+        "dynamodb:DescribeStream",
+        "dynamodb:ListStreams"
+      ],
+      "Resource": "arn:aws:dynamodb:ap-south-1:112097210422:table/Reminder-evyj3ez3bng5njm2syensqx5qa-dev/stream/*"
+    },
+    {
+      "Sid": "DynamoDBReadWriteReminder",
+      "Effect": "Allow",
+      "Action": [
+        "dynamodb:GetItem",
+        "dynamodb:UpdateItem"
+      ],
+      "Resource": "arn:aws:dynamodb:ap-south-1:112097210422:table/Reminder-evyj3ez3bng5njm2syensqx5qa-dev"
+    },
+    {
+      "Sid": "StepFunctionsStartStop",
+      "Effect": "Allow",
+      "Action": [
+        "states:StartExecution",
+        "states:StopExecution"
+      ],
+      "Resource": [
+        "arn:aws:states:ap-south-1:112097210422:stateMachine:RemindersStatemachine-dev",
+        "arn:aws:states:ap-south-1:112097210422:execution:RemindersStatemachine-dev:*"
+      ]
+    }
+  ]
+}

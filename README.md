@@ -89,6 +89,9 @@ After removed addtional auth-types, make sure additionalAuthTypes section is emp
 30. Add custom resources (which are not supported by Amplify CLI)  using amplify cli command "amplify add custom"
 Additionally add required permissions to Amplify project for these custom-resources. For example to create and manage step-funtions through Amplify project, you can add as a custom resource with defined cloudformation template. But by default Amplify app has IAM role which has Amplify-Adminaccess AWS managed IAM policy which has no sufficient permissions on this step-funtions. So, add inline policy to the existed IAM role attached to Amplify app to resolve Amplify build fail issue by permissions issue.
 
+31. To create a new environment either you can clone the existed environment, give new name, push that backend environment. Or
+by default after connected branch it automatically deploys backend with the branch name (we can customize with required backend environment name to be deployed)
+
 
 
 
