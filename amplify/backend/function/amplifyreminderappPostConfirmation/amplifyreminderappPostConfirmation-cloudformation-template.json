@@ -197,6 +197,34 @@
           ]
         }
       }
+    },
+    "CustomResourcesPolicy": {
+      "DependsOn": [
+        "LambdaExecutionRole"
+      ],
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyName": "custom-lambda-execution-policy",
+        "Roles": [
+          {
+            "Ref": "LambdaExecutionRole"
+          }
+        ],
+        "PolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Sid": "SesVerifyRecipientIdentity",
+              "Effect": "Allow",
+              "Action": [
+                "ses:CreateEmailIdentity",
+                "ses:GetEmailIdentity"
+              ],
+              "Resource": "arn:aws:ses:ap-south-1:112097210422:identity/*"
+            }
+          ]
+        }
+      }
     }
   },
   "Outputs": {

@@ -1,23 +1,4 @@
 {
   "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Action": [
-        "logs:CreateLogGroup",
-        "logs:CreateLogStream",
-        "logs:PutLogEvents"
-      ],
-      "Resource": "arn:aws:logs:ap-south-1:112097210422:log-group:/aws/lambda/amplifyreminderappPostConfirmation-dev:log-stream:*",
-      "Effect": "Allow"
-    },
-    {
-      "Sid": "SesVerifyRecipientIdentity",
-      "Effect": "Allow",
-      "Action": [
-        "ses:CreateEmailIdentity",
-        "ses:GetEmailIdentity"
-      ],
-      "Resource": "arn:aws:ses:ap-south-1:112097210422:identity/*"
-    }
-  ]
+  "Statement": []
 }
