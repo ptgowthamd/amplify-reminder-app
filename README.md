@@ -86,6 +86,12 @@ After studio work done, you can switch back to only Cognito auth-type, no additi
 
 After removed addtional auth-types, make sure additionalAuthTypes section is emptyin cli-inputs.json
 
+30. Add custom resources (which are not supported by Amplify CLI)  using amplify cli command "amplify add custom"
+Additionally add required permissions to Amplify project for these custom-resources. For example to create and manage step-funtions through Amplify project, you can add as a custom resource with defined cloudformation template. But by default Amplify app has IAM role which has Amplify-Adminaccess AWS managed IAM policy which has no sufficient permissions on this step-funtions. So, add inline policy to the existed IAM role attached to Amplify app to resolve Amplify build fail issue by permissions issue.
+
+
+
+
 
 # React + Vite
 
