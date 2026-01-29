@@ -2,6 +2,9 @@
   "AWSTemplateFormatVersion": "2010-09-09",
   "Description": "Custom Step Functions state machine for reminders",
   "Parameters": {
+    "resourceName": {
+      "Type": "String"
+    },
     "env": {
       "Type": "String",
       "Default": "NONE"
