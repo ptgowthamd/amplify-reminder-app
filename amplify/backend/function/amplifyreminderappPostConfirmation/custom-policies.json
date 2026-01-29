@@ -1,4 +1,27 @@
 {
   "Version": "2012-10-17",
-  "Statement": []
+  "Statement": [
+    {
+      "Action": [
+        "logs:CreateLogGroup",
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+      ],
+      "Resource": {
+        "Fn::Sub": "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/${LambdaFunction}:log-stream:*"
+      },
+      "Effect": "Allow"
+    },
+    {
+      "Sid": "SesVerifyRecipientIdentity",
+      "Effect": "Allow",
+      "Action": [
+        "ses:CreateEmailIdentity",
+        "ses:GetEmailIdentity"
+      ],
+      "Resource": {
+        "Fn::Sub": "arn:aws:ses:${AWS::Region}:${AWS::AccountId}:identity/*"
+      }
+    }
+  ]
 }

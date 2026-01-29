@@ -194,7 +194,9 @@
                                 "cognito-idp:AdminGetUser",
                                 "cognito-idp:ListUsers"
                             ],
-                            "Resource": "arn:aws:cognito-idp:ap-south-1:112097210422:userpool/ap-south-1_qx0kApvMu"
+                            "Resource": {
+                                "Fn::Sub": "arn:aws:cognito-idp:${AWS::Region}:${AWS::AccountId}:userpool/${cognitoUserPoolId}"
+                            }
                         },
                         {
                             "Sid": "SendEmailSES",
