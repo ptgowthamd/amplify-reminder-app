@@ -28,5 +28,15 @@
         "reminderStreamsTriggerLambdaFun2SendEvent2StepFuntion": {}
       }
     }
+  },
+  "prod": {
+    "awscloudformation": {},
+    "categories": {
+      "function": {
+        "sendReminderEventfromStepFuntion": {
+          "cognitoUserPoolId": "ap-south-1_EQER3JHCZ"
+        }
+      }
+    }
   }
 }
