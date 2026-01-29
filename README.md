@@ -92,6 +92,8 @@ Additionally add required permissions to Amplify project for these custom-resour
 31. To create a new environment either you can clone the existed environment, give new name, push that backend environment. Or
 by default after connected branch it automatically deploys backend with the branch name (we can customize with required backend environment name to be deployed)
 
+32. Remove parameters.json parameters values if values should be injected from team-provider-info.json as per environment.
+
 
 
 

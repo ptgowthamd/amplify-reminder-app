@@ -1,5 +1,5 @@
 {
-  "cognitoUserPoolId": "ap-south-1_qx0kApvMu",
+  "cognitoUserPoolId": "",
   "sesFromEmail": "noreply.reminders@testdemosite.com",
   "timeZone": "Asia/Kolkata"
 }
